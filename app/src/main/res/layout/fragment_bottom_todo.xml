@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="20dp"
+    android:backgroundTint="@android:color/transparent"
+    android:background="@drawable/todo_bottom_background"
+    tools:context=".fragment.Todo.UpadteTodoFragment.BottomTodoFragment">
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/todoTask"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="20dp"
+        android:hint="@string/hintTask"
+        android:textSize="18sp"
+        android:background="@null"
+        android:inputType="text"
+        android:maxLines="1"
+        android:imeOptions="actionDone"
+        android:textColorHint="@color/textHintColor"
+        android:textColor="@color/titleColor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/doneButton"
+        android:layout_width="wrap_content"
+        android:focusable="true"
+        android:clickable="true"
+        android:layout_height="wrap_content"
+        android:text="@string/doneButton"
+        android:textSize="16sp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="20dp"
+        android:layout_below="@id/todoTask"
+        android:layout_alignParentEnd="true"
+        android:textColor="@color/doneButtonColor"/>
+
+
+
+</RelativeLayout>

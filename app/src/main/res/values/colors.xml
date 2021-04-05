@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="background">#090909</color>
+    <color name="titleColor">#FFFBFC</color>
+    <color name="iconBackgroundColor">#3E3E3E</color>
+    <color name="textHintColor">#878585</color>
+    <color name="dateColor">#9F9F9F</color>
+    <color name="notesDescriptionColor">#7A7A7A</color>
+    <color name="notesColor1">#FFB6B2</color>
+    <color name="notesColor2">#F7FFAA</color>
+    <color name="notesColor3">#CEB3FF</color>
+    <color name="notesColor4">#BDE2FF</color>
+    <color name="notesColor5">#C1FFC4</color>
+    <color name="notesColor6">#FFD79C</color>
+    <color name="SingleTodobackgroundIncomplete">#302F2F</color>
+    <color name="SingleTodobackgroundComplete">#292929</color>
+    <color name="doneButtonColor">#0A82FB</color>
+    <color name="flButtonColor">#191919</color>
+
+    <array name="notesColor">
+        <item>@color/notesColor1</item>
+        <item>@color/notesColor2</item>
+        <item>@color/notesColor3</item>
+        <item>@color/notesColor4</item>
+        <item>@color/notesColor5</item>
+        <item>@color/notesColor6</item>
+    </array>
+</resources>

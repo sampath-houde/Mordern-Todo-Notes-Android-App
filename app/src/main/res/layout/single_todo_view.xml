@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    android:id="@+id/cardBackground"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="10dp"
+    android:layout_marginBottom="5dp"
+    android:layout_marginLeft="5dp"
+    app:cardBackgroundColor="@color/SingleTodobackgroundIncomplete"
+    android:layout_marginRight="5dp"
+    android:layout_marginTop="5dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:padding="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/checkBox"
+            android:textColor="@color/titleColor"
+            app:buttonTint="@color/titleColor"
+            android:fontFamily="@font/rubik"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/titleTodo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/checkBox"
+            android:text="Drink Water"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/rubik_light"
+            android:textColor="@color/titleColor"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/deleteButton"
+            android:layout_width="35dp"
+            app:cardCornerRadius="7dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
+            app:cardBackgroundColor="@color/iconBackgroundColor"
+            android:layout_alignParentEnd="true"
+            android:layout_height="35dp">
+            <ImageView
+                android:layout_width="20dp"
+                android:src="@drawable/ic_baseline_delete_outline_24"
+                android:layout_gravity="center"
+                android:layout_height="20dp"/>
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </RelativeLayout>
+</com.google.android.material.card.MaterialCardView>

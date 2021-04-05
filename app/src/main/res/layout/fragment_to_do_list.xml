@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/background">
+
+    <RelativeLayout
+        android:id="@+id/topBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="22dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/appTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/rubik"
+            android:text="@string/ToDo"
+            android:gravity="bottom"
+            android:layout_centerVertical="true"
+            android:textColor="@color/titleColor"
+            android:textSize="28sp" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/search_button"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            app:cardCornerRadius="10dp"
+            android:layout_alignParentEnd="true"
+            app:cardBackgroundColor="@color/iconBackgroundColor">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:src="@drawable/search"
+                app:tint="@color/titleColor" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </RelativeLayout>
+
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/searchView"
+        android:visibility="gone"
+        app:queryHint="Search Notes"
+        android:layout_marginLeft="22dp"
+        android:layout_marginRight="22dp"
+        android:layout_marginBottom="20dp"
+        android:searchIcon="@drawable/ic_baseline_search_24"
+        android:background="@drawable/search_background"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/topBar"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_below="@id/searchView"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"
+        app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addTodo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:backgroundTint="@color/flButtonColor"
+        android:src="@drawable/ic_baseline_add_24"
+        android:clickable="true"
+        android:focusable="true"
+        app:tint="@color/titleColor"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="24dp"
+        android:layout_marginEnd="24dp"/>
+
+    <LinearLayout
+        android:id="@+id/noNoteView"
+        android:visibility="gone"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_gravity="center"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_baseline_sticky_note_2_24"
+            app:tint="#838383" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="@color/textHintColor"
+            android:text="@string/noNote"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/background">
+
+    <RelativeLayout
+        android:id="@+id/topBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="22dp"
+        android:layout_marginRight="22dp"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/backButton"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:rippleColor="@color/textHintColor"
+            app:cardCornerRadius="10dp"
+            app:cardBackgroundColor="@color/iconBackgroundColor">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="4dp"
+                android:src="@drawable/ic_baseline_arrow_back_ios_24"/>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            app:cardCornerRadius="10dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:rippleColor="@color/textHintColor"
+            android:layout_alignParentEnd="true"
+            app:cardBackgroundColor="@color/iconBackgroundColor">
+
+            <ImageView
+                android:id="@+id/save_button"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_baseline_check_24"
+                android:layout_gravity="center" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </RelativeLayout>
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/noteTitle"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="22dp"
+        android:layout_marginRight="22dp"
+        android:layout_marginTop="22dp"
+        android:background="@null"
+        android:hint="@string/title_hint"
+        android:padding="10dp"
+        android:textSize="25sp"
+        android:textCursorDrawable="@null"
+        android:textColorHint="@color/textHintColor"
+        android:textColor="@android:color/white"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/topBar"/>
+
+    <TextView
+        android:id="@+id/dateTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="22dp"
+        android:layout_marginTop="5dp"
+        android:text="21 March, 2021"
+        android:textColor="@color/textHintColor"
+        android:textSize="15sp"
+        android:layout_below="@id/noteTitle"/>
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/noteDescription"
+        android:textCursorDrawable="@null"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="22dp"
+        android:layout_marginRight="22dp"
+        android:layout_marginTop="15dp"
+        android:background="@null"
+        android:hint="@string/description_hint"
+        android:padding="10dp"
+        android:textSize="18sp"
+        android:textColorHint="@color/textHintColor"
+        android:textColor="@android:color/white"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dateTime"/>
+
+</RelativeLayout>
