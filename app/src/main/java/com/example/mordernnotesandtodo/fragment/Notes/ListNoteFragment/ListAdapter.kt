@@ -1,27 +1,24 @@
 package com.example.mordernnotesapp.fragments.Note.AddNoteFragment.AddNoteFragment.ListNoteFragment
 
 import android.content.Context
-import android.graphics.Color
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.mordernnotesandtodo.R
+import com.example.mordernnotesandtodo.fragment.Notes.AddOrUpdateNoteFragment.Convertors
 import com.example.mordernnotesandtodo.fragment.viewPager.ViewPagerFragmentDirections
 import com.example.mordernnotesandtodo.model.UserNotes
-import kotlinx.android.synthetic.main.fragment_add_note.view.*
-import kotlinx.android.synthetic.main.fragment_add_note.view.noteDescription
-import kotlinx.android.synthetic.main.fragment_add_note.view.noteTitle
 import kotlinx.android.synthetic.main.single_note_view.view.*
+import kotlinx.coroutines.*
 
 class ListAdapter(context: Context) : RecyclerView.Adapter<ListAdapter.NoteViewHolder>() {
 
     private var notesList = emptyList<UserNotes>()
 
-    //private var notesColor: IntArray = context.resources.getIntArray(R.array.notesColor)
 
     class NoteViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)  {
 
@@ -34,7 +31,6 @@ class ListAdapter(context: Context) : RecyclerView.Adapter<ListAdapter.NoteViewH
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
         val currentNote = notesList[position]
         holder.itemView.titleNote.text = currentNote.notesTitle
-        //holder.itemView.cardBackground.setCardBackgroundColor(notesColor.random())
         holder.itemView.noteDate.text = currentNote.date
         if(TextUtils.isEmpty(currentNote.notesDescription)) {
             holder.itemView.descriptionNote.visibility = View.GONE
@@ -42,8 +38,22 @@ class ListAdapter(context: Context) : RecyclerView.Adapter<ListAdapter.NoteViewH
             holder.itemView.descriptionNote.text = currentNote.notesDescription.trim()
         }
 
+        if(currentNote.imagePath != null) {
+            val defaultScope = CoroutineScope(Dispatchers.Default + SupervisorJob())
+
+            defaultScope.launch {
+                Glide.with(holder.itemView).load(Convertors().toBitmap(currentNote.imagePath))
+                        .also {
+                            withContext(Dispatchers.Main) {
+                                it.into(holder.itemView.noteImage)
+                                holder.itemView.noteImage.visibility = View.VISIBLE
+                            }
+                        }
+            }
+        }
+
         holder.itemView.cardBackground.setOnClickListener {
-            val action = ViewPagerFragmentDirections.actionViewPagerFragmentToUpdateNoteFragment(currentNote)
+            val action = ViewPagerFragmentDirections.actionViewPagerFragmentToAddNewNoteFragment(currentNote)
             holder.itemView.findNavController().navigate(action)
         }
 

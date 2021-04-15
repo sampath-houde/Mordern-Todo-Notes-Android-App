@@ -1,8 +1,11 @@
 package com.example.mordernnotesandtodo.model
 
+import android.graphics.Bitmap
 import android.os.Parcelable
+import androidx.annotation.Nullable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverter
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
@@ -12,5 +15,6 @@ data class UserNotes(
     val id: Int,
     val notesTitle: String,
     val notesDescription: String,
-    val date: String
+    val date: String,
+    val imagePath: ByteArray?
 ) : Parcelable

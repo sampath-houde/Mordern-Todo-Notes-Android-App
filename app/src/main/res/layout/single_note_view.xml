@@ -14,19 +14,29 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <RelativeLayout
-        android:paddingTop="20dp"
         android:paddingBottom="20dp"
-        android:paddingStart="15dp"
-        android:paddingEnd="15dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/noteImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:riv_corner_radius_top_left="20dp"
+            app:riv_corner_radius_top_right="20dp"
+            android:adjustViewBounds="true"/>
+
         <TextView
             android:id="@+id/titleNote"
+            android:layout_marginTop="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/noteImage"
             android:fontFamily="@font/rubik"
             android:lineSpacingExtra="4dp"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
             android:textColor="@color/titleColor"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -36,6 +46,8 @@
             android:layout_marginTop="10dp"
             android:layout_below="@id/titleNote"
             android:textSize="15sp"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
             android:fontFamily="@font/rubik"
             android:textColor="@color/notesDescriptionColor"
             android:layout_width="wrap_content"
@@ -46,6 +58,8 @@
             android:layout_below="@+id/descriptionNote"
             android:layout_width="wrap_content"
             android:textSize="10sp"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
             android:textStyle="italic"
             android:layout_marginTop="12dp"
             android:textColor="@color/dateColor"

@@ -8,31 +8,21 @@
     <fragment
         android:id="@+id/addNewNoteFragment"
         tools:layout="@layout/fragment_add_note"
-        android:name="com.example.mordernnotesandtodo.fragment.Notes.AddNoteFragment.AddNewNoteFragment"
+        android:name="com.example.mordernnotesandtodo.fragment.Notes.AddOrUpdateNoteFragment.AddOrUpdateNoteFragment"
         android:label="AddNewNoteFragment" >
         <action
             android:id="@+id/action_addNewNoteFragment_to_viewPagerFragment"
             app:destination="@id/viewPagerFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/updateNoteFragment"
-        android:name="com.example.mordernnotesapp.fragments.Note.AddNoteFragment.AddNoteFragment.UpdateNoteFragment.UpdateNoteFragment"
-        android:label="UpdateNoteFragment"
-        tools:layout="@layout/fragment_update_note">
         <argument
             android:name="notesData"
-            app:argType="com.example.mordernnotesandtodo.model.UserNotes" />
-        <action
-            android:id="@+id/action_updateNoteFragment_to_viewPagerFragment"
-            app:destination="@id/viewPagerFragment" />
+            app:argType="com.example.mordernnotesandtodo.model.UserNotes"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
     <fragment
         android:id="@+id/viewPagerFragment"
         android:name="com.example.mordernnotesandtodo.fragment.viewPager.ViewPagerFragment"
         android:label="ViewPagerFragment" >
-        <action
-            android:id="@+id/action_viewPagerFragment_to_updateNoteFragment"
-            app:destination="@id/updateNoteFragment" />
         <action
             android:id="@+id/action_viewPagerFragment_to_addNewNoteFragment"
             app:destination="@id/addNewNoteFragment" />

@@ -15,4 +15,13 @@
     <string name="deleteTodo">Do you want to delete the task?</string>
     <string name="Yes">Yes</string>
     <string name="No">No</string>
+    <string name="imageDesc">Image</string>
+    <string name="dateDemo">21 March, 2021</string>
+    <string name="addImage">Add Image</string>
+    <string name="addauido">Record Audio</string>
+    <string name="deleteNote">Delete Note</string>
+    <string name="reminderButton">Reminder</string>
+    <string name="selectTime">Please select the time</string>
+    <string name="hour">Hour</string>
+    <string name="minute">Minute</string>
 </resources>

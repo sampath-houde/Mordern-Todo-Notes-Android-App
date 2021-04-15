@@ -1,102 +1,293 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/background">
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:layout_width="match_parent">
 
     <RelativeLayout
-        android:id="@+id/topBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="22dp"
-        android:layout_marginRight="22dp"
-        android:layout_marginTop="30dp"
-        android:orientation="horizontal">
+        android:background="@color/background">
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/backButton"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:clickable="true"
-            android:focusable="true"
-            app:rippleColor="@color/textHintColor"
-            app:cardCornerRadius="10dp"
-            app:cardBackgroundColor="@color/iconBackgroundColor">
+        <RelativeLayout
+            android:id="@+id/topBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="22dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="22dp"
+            android:orientation="horizontal">
 
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_gravity="center"
-                android:layout_marginLeft="4dp"
-                android:src="@drawable/ic_baseline_arrow_back_ios_24"/>
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/backButton"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardBackgroundColor="@color/iconBackgroundColor"
+                app:cardCornerRadius="10dp"
+                app:rippleColor="@color/textHintColor">
 
-        </com.google.android.material.card.MaterialCardView>
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="4dp"
+                    android:src="@drawable/ic_baseline_arrow_back_ios_24" />
 
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            app:cardCornerRadius="10dp"
-            android:clickable="true"
-            android:focusable="true"
-            app:rippleColor="@color/textHintColor"
-            android:layout_alignParentEnd="true"
-            app:cardBackgroundColor="@color/iconBackgroundColor">
+            </com.google.android.material.card.MaterialCardView>
 
-            <ImageView
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/shareButton"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:visibility="gone"
+                android:layout_marginEnd="10dp"
+                android:layout_toStartOf="@+id/save_button"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardBackgroundColor="@color/iconBackgroundColor"
+                app:cardCornerRadius="10dp"
+                app:rippleColor="@color/textHintColor">
+
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="-2dp"
+                    android:contentDescription="@string/imageDesc"
+                    android:scaleX="1.15"
+                    android:src="@drawable/ic_outline_ios_share_24" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/save_button"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:src="@drawable/ic_baseline_check_24"
-                android:layout_gravity="center" />
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_alignParentEnd="true"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardBackgroundColor="@color/iconBackgroundColor"
+                app:cardCornerRadius="10dp"
+                app:rippleColor="@color/textHintColor">
 
-        </com.google.android.material.card.MaterialCardView>
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/imageDesc"
+                    android:src="@drawable/ic_baseline_check_24" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </RelativeLayout>
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/noteTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/topBar"
+            android:layout_marginLeft="22dp"
+            android:layout_marginTop="22dp"
+            android:layout_marginRight="22dp"
+            android:background="@null"
+            android:hint="@string/title_hint"
+            android:padding="10dp"
+            android:textColor="@android:color/white"
+            android:textColorHint="@color/textHintColor"
+            android:textCursorDrawable="@null"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/dateTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/noteTitle"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="22dp"
+            android:text="@string/dateDemo"
+            android:textColor="@color/textHintColor"
+            android:textSize="15sp" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/dateTime">
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/imageNote"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/imageDesc"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:riv_corner_radius="20dp" />
+
+
+            <ImageView
+                android:id="@+id/deleteImageButton"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:padding="5dp"
+                android:background="@drawable/delete_background"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:contentDescription="@string/imageDesc"
+                android:src="@drawable/ic_baseline_delete_outline_24"
+                app:layout_constraintEnd_toEndOf="@+id/imageNote"
+                app:layout_constraintTop_toTopOf="@+id/imageNote" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/noteDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/layout"
+            android:layout_marginLeft="22dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="22dp"
+            android:background="@null"
+            android:hint="@string/description_hint"
+            android:padding="10dp"
+            android:textColor="@android:color/white"
+            android:textColorHint="@color/textHintColor"
+            android:textCursorDrawable="@null"
+            android:textSize="18sp" />
+
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/coordinateLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true">
+
+
+            <RelativeLayout
+                android:id="@+id/bottomLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/note_bottom_background"
+                android:paddingBottom="20dp"
+                app:layout_behavior="@string/bottom_sheet_behavior">
+
+                <ImageView
+                    android:id="@+id/bottomSheetButton"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="10dp"
+                    android:contentDescription="@string/imageDesc"
+                    android:rotation="90"
+                    android:src="@drawable/ic_baseline_arrow_back_ios_24" />
+
+
+                <LinearLayout
+                    android:id="@+id/addimagelayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/bottomSheetButton"
+                    android:orientation="horizontal"
+                    android:paddingStart="20dp">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:contentDescription="@string/imageDesc"
+                        android:src="@drawable/ic_baseline_image_24"
+                        app:tint="@color/textHintColor" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="10dp"
+                        android:text="@string/addImage"
+                        android:textColor="@color/textHintColor" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/addRecordingLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/addimagelayout"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal"
+                    android:paddingStart="20dp">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:contentDescription="@string/imageDesc"
+                        android:src="@drawable/ic_baseline_mic_24"
+                        app:tint="@color/textHintColor" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="10dp"
+                        android:text="@string/addauido"
+                        android:textColor="@color/textHintColor" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/deleteNoteLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/addRecordingLayout"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal"
+                    android:paddingStart="20dp"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:contentDescription="@string/imageDesc"
+                        android:src="@drawable/ic_baseline_delete_outline_24"
+                        app:tint="@android:color/holo_red_light" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="10dp"
+                        android:text="@string/deleteNote"
+                        android:textColor="@android:color/holo_red_light" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     </RelativeLayout>
+</ScrollView>
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/noteTitle"
-        android:layout_width="match_parent"
-        android:layout_marginLeft="22dp"
-        android:layout_marginRight="22dp"
-        android:layout_marginTop="22dp"
-        android:background="@null"
-        android:hint="@string/title_hint"
-        android:padding="10dp"
-        android:textSize="25sp"
-        android:textCursorDrawable="@null"
-        android:textColorHint="@color/textHintColor"
-        android:textColor="@android:color/white"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/topBar"/>
 
-    <TextView
-        android:id="@+id/dateTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginEnd="22dp"
-        android:layout_marginTop="5dp"
-        android:text="21 March, 2021"
-        android:textColor="@color/textHintColor"
-        android:textSize="15sp"
-        android:layout_below="@id/noteTitle"/>
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/noteDescription"
-        android:textCursorDrawable="@null"
-        android:layout_width="match_parent"
-        android:layout_marginLeft="22dp"
-        android:layout_marginRight="22dp"
-        android:layout_marginTop="15dp"
-        android:background="@null"
-        android:hint="@string/description_hint"
-        android:padding="10dp"
-        android:textSize="18sp"
-        android:textColorHint="@color/textHintColor"
-        android:textColor="@android:color/white"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/dateTime"/>
 
-</RelativeLayout>
+
+
+
+

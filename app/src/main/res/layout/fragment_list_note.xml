@@ -47,6 +47,7 @@
         android:id="@+id/searchView"
         android:visibility="gone"
         app:queryHint="Search Notes"
+        app:closeIcon="@drawable/ic_baseline_close_24"
         android:layout_marginLeft="22dp"
         android:layout_marginRight="22dp"
         android:layout_marginBottom="20dp"

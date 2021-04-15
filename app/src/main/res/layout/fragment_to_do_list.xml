@@ -24,41 +24,12 @@
             android:textColor="@color/titleColor"
             android:textSize="28sp" />
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/search_button"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            app:cardCornerRadius="10dp"
-            android:layout_alignParentEnd="true"
-            app:cardBackgroundColor="@color/iconBackgroundColor">
-
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_gravity="center"
-                android:src="@drawable/search"
-                app:tint="@color/titleColor" />
-
-        </com.google.android.material.card.MaterialCardView>
 
     </RelativeLayout>
 
-    <androidx.appcompat.widget.SearchView
-        android:id="@+id/searchView"
-        android:visibility="gone"
-        app:queryHint="Search Notes"
-        android:layout_marginLeft="22dp"
-        android:layout_marginRight="22dp"
-        android:layout_marginBottom="20dp"
-        android:searchIcon="@drawable/ic_baseline_search_24"
-        android:background="@drawable/search_background"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/topBar"/>
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:layout_below="@id/searchView"
+        android:layout_below="@id/topBar"
         android:layout_marginLeft="18dp"
         android:layout_marginRight="18dp"
         app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
@@ -77,7 +48,9 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="24dp"
-        android:layout_marginEnd="24dp"/>
+        android:layout_marginEnd="24dp"
+        android:contentDescription="@string/imageDesc"
+        tools:ignore="RelativeOverlap" />
 
     <LinearLayout
         android:id="@+id/noNoteView"
@@ -93,7 +66,8 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:src="@drawable/ic_baseline_sticky_note_2_24"
-            app:tint="#838383" />
+            app:tint="#838383"
+            android:contentDescription="@string/imageDesc" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -103,5 +77,82 @@
             android:text="@string/noNote"/>
 
     </LinearLayout>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+            android:id="@+id/LayoutBottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/todo_bottom_background"
+            android:paddingBottom="20dp">
+
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/closeLayout"
+                android:layout_width="40dp"
+                android:layout_height="4dp"
+                app:cardBackgroundColor="@android:color/white"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp" />
+
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/todoTask"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginEnd="30dp"
+                android:background="@null"
+                android:layout_below="@id/closeLayout"
+                android:hint="@string/hintTask"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textColor="@color/titleColor"
+                android:textColorHint="@color/textHintColor"
+                android:textSize="18sp" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/doneButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/todoTask"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="35dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginEnd="20dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:text="@string/doneButton"
+                android:textColor="@color/doneButtonColor"
+                android:textSize="16sp" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/reminderButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/todoTask"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="35dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginEnd="20dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:text="@string/reminderButton"
+                android:textColor="@color/doneButtonColor"
+                android:textSize="16sp" />
+
+
+        </RelativeLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </RelativeLayout>

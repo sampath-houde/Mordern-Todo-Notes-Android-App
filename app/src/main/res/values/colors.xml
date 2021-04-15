@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="background">#090909</color>
+    <color name="background">#131313</color>
+    <color name="note_bottom_background">#000000</color>
     <color name="titleColor">#FFFBFC</color>
     <color name="iconBackgroundColor">#3E3E3E</color>
     <color name="textHintColor">#878585</color>
@@ -16,6 +17,7 @@
     <color name="SingleTodobackgroundComplete">#292929</color>
     <color name="doneButtonColor">#0A82FB</color>
     <color name="flButtonColor">#191919</color>
+    <color name="datePickerBackground">#FF444444</color>
 
     <array name="notesColor">
         <item>@color/notesColor1</item>

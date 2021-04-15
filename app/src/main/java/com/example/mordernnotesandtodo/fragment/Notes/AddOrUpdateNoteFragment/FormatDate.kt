@@ -1,4 +1,4 @@
-package com.example.mordernnotesandtodo.fragment.Notes.AddNoteFragment
+package com.example.mordernnotesandtodo.fragment.Notes.AddOrUpdateNoteFragment
 
 import  java.text.DateFormat
 import java.util.*

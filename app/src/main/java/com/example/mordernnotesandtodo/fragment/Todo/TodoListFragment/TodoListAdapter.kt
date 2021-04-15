@@ -15,18 +15,16 @@ import com.example.mordernnotesandtodo.viewModel.TodoViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.single_todo_view.view.*
 
-class TodoListAdapter() : RecyclerView.Adapter<TodoListAdapter.TodoViewHolder>() {
+class TodoListAdapter(mTodoViewModel: TodoViewModel, context: Context?) : RecyclerView.Adapter<TodoListAdapter.TodoViewHolder>() {
 
     private var todoList = emptyList<UserTodo>()
-    private lateinit var mUserTodoViewModel: TodoViewModel
-    private lateinit var context: Context
+    private  var mUserTodoViewModel: TodoViewModel = mTodoViewModel
+    private  var context: Context = context!!
 
-    fun setData(todo: List<UserTodo>, mTodoViewModel: TodoViewModel, context: Context?) {
+    fun setData(todo: List<UserTodo>) {
         todoList = todo
         notifyDataSetChanged()
 
-        this.context = context!!
-        mUserTodoViewModel = mTodoViewModel
     }
 
     class TodoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

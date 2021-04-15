@@ -1,6 +1,8 @@
 package com.example.mordernnotesapp.fragments.Note.AddNoteFragment.AddNoteFragment.ListNoteFragment
 
+import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -37,21 +39,36 @@ class ListNoteFragment : Fragment() {
         recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
 
         mNoteViewModel = ViewModelProvider(this).get(NotesViewModel::class.java)
-        mNoteViewModel.readAllNotes.observe(viewLifecycleOwner, Observer { note->
-            if(note.size == 0) {
-                view.noNoteView.visibility = View.VISIBLE
-                view.search_button.visibility = View.GONE
-                view.recyclerView.visibility = View.GONE
-            } else {
-                adapter.setData(note)
-                arrNotes = note as ArrayList<UserNotes>
-            }
-        })
+
+        Handler().postDelayed({
+            mNoteViewModel.readAllNotes.observe(viewLifecycleOwner, Observer { note->
+                if(note.size == 0) {
+                    view.noNoteView.visibility = View.VISIBLE
+                    view.search_button.visibility = View.GONE
+                    view.recyclerView.visibility = View.GONE
+                } else {
+                    view.noNoteView.visibility = View.GONE
+                    view.search_button.visibility = View.VISIBLE
+                    view.recyclerView.visibility = View.VISIBLE
+                    adapter.setData(note)
+                    arrNotes = note as ArrayList<UserNotes>
+                }
+            })
+        }, 300)
+
 
         view.search_button.setOnClickListener {
             view.searchView.visibility = View.VISIBLE
             view.searchView.onActionViewExpanded()
         }
+
+        view.searchView.setOnCloseListener(object : SearchView.OnCloseListener{
+            override fun onClose(): Boolean {
+                view.searchView.visibility = View.GONE
+                return true
+            }
+
+        })
 
         view.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -59,7 +76,7 @@ class ListNoteFragment : Fragment() {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                var tempArr = ArrayList<UserNotes>()
+                val tempArr = ArrayList<UserNotes>()
 
                 for(arr in arrNotes){
                     if(arr.notesTitle.toLowerCase(Locale.getDefault()).trim().contains(newText.toString()) || arr.notesDescription.toLowerCase(

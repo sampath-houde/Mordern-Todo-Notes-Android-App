@@ -1,6 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.MordernNotesAndTodo" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/background</item>
+    <style name="Widget.App.TimePicker.Clock" parent="Widget.MaterialComponents.TimePicker">
+        <item name="android:textColor">@color/titleColor</item>
+        <item name="materialClockStyle">@color/titleColor</item>
     </style>
 </resources>
