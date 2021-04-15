@@ -36,25 +36,24 @@ class ListNoteFragment : Fragment() {
         val recyclerView = view.recyclerView
         recyclerView.adapter = adapter
         recyclerView.setHasFixedSize(true)
-        recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        recyclerView.layoutManager =
+            StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
 
         mNoteViewModel = ViewModelProvider(this).get(NotesViewModel::class.java)
 
-        Handler().postDelayed({
-            mNoteViewModel.readAllNotes.observe(viewLifecycleOwner, Observer { note->
-                if(note.size == 0) {
-                    view.noNoteView.visibility = View.VISIBLE
-                    view.search_button.visibility = View.GONE
-                    view.recyclerView.visibility = View.GONE
-                } else {
-                    view.noNoteView.visibility = View.GONE
-                    view.search_button.visibility = View.VISIBLE
-                    view.recyclerView.visibility = View.VISIBLE
-                    adapter.setData(note)
-                    arrNotes = note as ArrayList<UserNotes>
-                }
-            })
-        }, 300)
+        mNoteViewModel.readAllNotes.observe(viewLifecycleOwner, Observer { note ->
+            if (note.size == 0) {
+                view.noNoteView.visibility = View.VISIBLE
+                view.search_button.visibility = View.GONE
+                view.recyclerView.visibility = View.GONE
+            } else {
+                view.noNoteView.visibility = View.GONE
+                view.search_button.visibility = View.VISIBLE
+                view.recyclerView.visibility = View.VISIBLE
+                adapter.setData(note)
+                arrNotes = note as ArrayList<UserNotes>
+            }
+        })
 
 
         view.search_button.setOnClickListener {
@@ -62,7 +61,7 @@ class ListNoteFragment : Fragment() {
             view.searchView.onActionViewExpanded()
         }
 
-        view.searchView.setOnCloseListener(object : SearchView.OnCloseListener{
+        view.searchView.setOnCloseListener(object : SearchView.OnCloseListener {
             override fun onClose(): Boolean {
                 view.searchView.visibility = View.GONE
                 return true
@@ -70,7 +69,7 @@ class ListNoteFragment : Fragment() {
 
         })
 
-        view.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+        view.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return true
             }
@@ -78,9 +77,12 @@ class ListNoteFragment : Fragment() {
             override fun onQueryTextChange(newText: String?): Boolean {
                 val tempArr = ArrayList<UserNotes>()
 
-                for(arr in arrNotes){
-                    if(arr.notesTitle.toLowerCase(Locale.getDefault()).trim().contains(newText.toString()) || arr.notesDescription.toLowerCase(
-                            Locale.getDefault()).trim().contains(newText.toString())) {
+                for (arr in arrNotes) {
+                    if (arr.notesTitle.toLowerCase(Locale.getDefault()).trim()
+                            .contains(newText.toString()) || arr.notesDescription.toLowerCase(
+                            Locale.getDefault()
+                        ).trim().contains(newText.toString())
+                    ) {
                         tempArr.add(arr)
                     }
                 }

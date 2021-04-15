@@ -12,7 +12,10 @@
         android:label="AddNewNoteFragment" >
         <action
             android:id="@+id/action_addNewNoteFragment_to_viewPagerFragment"
-            app:destination="@id/viewPagerFragment" />
+            app:destination="@id/viewPagerFragment"
+            app:enterAnim="@anim/fragment_fade_exit"
+            app:popUpTo="@id/viewPagerFragment"
+            app:popUpToInclusive="true" />
         <argument
             android:name="notesData"
             app:argType="com.example.mordernnotesandtodo.model.UserNotes"
@@ -25,18 +28,9 @@
         android:label="ViewPagerFragment" >
         <action
             android:id="@+id/action_viewPagerFragment_to_addNewNoteFragment"
-            app:destination="@id/addNewNoteFragment" />
-        <action
-            android:id="@+id/action_viewPagerFragment_to_bottomTodoFragment"
-            app:destination="@id/bottomTodoFragment" />
+            app:destination="@id/addNewNoteFragment"
+            app:enterAnim="@anim/fragment_close_enter"
+            app:exitAnim="@anim/fragment_close_exit"
+            app:popExitAnim="@anim/fragment_close_exit" />
     </fragment>
-    <dialog
-        android:id="@+id/bottomTodoFragment"
-        android:name="com.example.mordernnotesandtodo.fragment.Todo.UpadteTodoFragment.BottomTodoFragment"
-        android:label="fragment_bottom_todo"
-        tools:layout="@layout/fragment_bottom_todo" >
-        <action
-            android:id="@+id/action_bottomTodoFragment_to_viewPagerFragment"
-            app:destination="@id/viewPagerFragment" />
-    </dialog>
 </navigation>
