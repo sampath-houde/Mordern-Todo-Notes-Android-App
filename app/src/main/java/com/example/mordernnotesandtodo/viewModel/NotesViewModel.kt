@@ -3,7 +3,6 @@ package com.example.mordernnotesandtodo.viewModel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mordernnotesandtodo.data.NotesDatabase
 import com.example.mordernnotesandtodo.model.UserNotes
@@ -15,6 +14,7 @@ class NotesViewModel(application: Application) : AndroidViewModel(application) {
 
     val readAllNotes: LiveData<List<UserNotes>>
     private val notesRepository: NotesRepository
+
 
     init {
         val notesDao = NotesDatabase.getDatabase(application).notesDao()

@@ -63,9 +63,9 @@
 
         <ImageView
             android:layout_gravity="center"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:src="@drawable/ic_baseline_sticky_note_2_24"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_baseline_library_add_check_24"
             app:tint="#838383"
             android:contentDescription="@string/imageDesc" />
 
@@ -74,7 +74,7 @@
             android:layout_height="wrap_content"
             android:textAlignment="center"
             android:textColor="@color/textHintColor"
-            android:text="@string/noNote"/>
+            android:text="@string/noTodo"/>
 
     </LinearLayout>
 

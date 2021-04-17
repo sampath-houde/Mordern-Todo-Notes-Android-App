@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    android:layout_width="match_parent">
+    android:fillViewport="true">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -44,11 +43,11 @@
                 android:id="@+id/shareButton"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
-                android:visibility="gone"
                 android:layout_marginEnd="10dp"
                 android:layout_toStartOf="@+id/save_button"
                 android:clickable="true"
                 android:focusable="true"
+                android:visibility="gone"
                 app:cardBackgroundColor="@color/iconBackgroundColor"
                 app:cardCornerRadius="10dp"
                 app:rippleColor="@color/textHintColor">
@@ -113,12 +112,28 @@
             android:textColor="@color/textHintColor"
             android:textSize="15sp" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout"
-            android:visibility="gone"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/noteDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/dateTime">
+            android:layout_below="@id/dateTime"
+            android:layout_marginLeft="22dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="22dp"
+            android:background="@null"
+            android:hint="@string/description_hint"
+            android:padding="10dp"
+            android:textColor="@android:color/white"
+            android:textColorHint="@color/textHintColor"
+            android:textCursorDrawable="@null"
+            android:textSize="18sp" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/noteDescription"
+            android:visibility="gone">
 
             <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/imageNote"
@@ -141,34 +156,17 @@
                 android:id="@+id/deleteImageButton"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:padding="5dp"
-                android:background="@drawable/delete_background"
                 android:layout_gravity="center"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
+                android:background="@drawable/delete_background"
                 android:contentDescription="@string/imageDesc"
+                android:padding="5dp"
                 android:src="@drawable/ic_baseline_delete_outline_24"
                 app:layout_constraintEnd_toEndOf="@+id/imageNote"
                 app:layout_constraintTop_toTopOf="@+id/imageNote" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/noteDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/layout"
-            android:layout_marginLeft="22dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginRight="22dp"
-            android:background="@null"
-            android:hint="@string/description_hint"
-            android:padding="10dp"
-            android:textColor="@android:color/white"
-            android:textColorHint="@color/textHintColor"
-            android:textCursorDrawable="@null"
-            android:textSize="18sp" />
 
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout

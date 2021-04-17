@@ -1,6 +1,7 @@
 package com.example.mordernnotesandtodo.fragment.viewPager
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,6 +33,16 @@ class ViewPagerFragment : Fragment() {
         val viewPager = view.viewPager
 
         viewPager.adapter = adapter
+
+        view.notesImage.setOnClickListener {
+            viewPager.setCurrentItem(0, true)
+            Log.d("clicked", "notes")
+        }
+
+        view.toDoImage.setOnClickListener {
+            viewPager.setCurrentItem(1, true)
+            Log.d("clicked", "todo")
+        }
 
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {

@@ -23,17 +23,15 @@ import com.aminography.primecalendar.common.CalendarType
 import com.aminography.primedatepicker.picker.PrimeDatePicker
 import com.aminography.primedatepicker.picker.callback.SingleDayPickCallback
 import com.example.mordernnotesandtodo.R
+import com.example.mordernnotesandtodo.databinding.FragmentToDoListBinding
 import com.example.mordernnotesandtodo.fragment.Todo.TodoListFragment.TodoListAdapter
 import com.example.mordernnotesandtodo.model.UserTodo
 import com.example.mordernnotesandtodo.viewModel.TodoViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import kotlinx.android.synthetic.main.fragment_bottom_todo.*
-import kotlinx.android.synthetic.main.fragment_to_do_list.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
-import java.text.DateFormat
 
 class ToDoListFragment : Fragment() {
 
@@ -44,6 +42,7 @@ class ToDoListFragment : Fragment() {
     private lateinit var minDate: PrimeCalendar
     private lateinit var maxDate: PrimeCalendar
     private lateinit var timePicker: SnapTimePickerDialog
+    private lateinit var binding: FragmentToDoListBinding
 
 
     override fun onCreateView(
@@ -51,13 +50,18 @@ class ToDoListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_to_do_list, container, false)
+        return inflater.inflate(R.layout.fragment_to_do_list, container, false)
+
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding = FragmentToDoListBinding.bind(view)
 
         mTodoViewModel = ViewModelProvider(this).get(TodoViewModel::class.java)
 
         val adapter = TodoListAdapter(mTodoViewModel, context)
 
-        val recyclerView = view.recyclerView
+        val recyclerView = binding.recyclerView
 
         recyclerView.adapter = adapter
 
@@ -70,33 +74,31 @@ class ToDoListFragment : Fragment() {
             Handler().postDelayed({                                 // Handler used to show the animation of animation
 
                 if (todoList.size == 0) {
-                    view.noNoteView.visibility = View.VISIBLE
-                    view.recyclerView.visibility = View.GONE
+                    binding.noNoteView.visibility = View.VISIBLE
+                    binding.recyclerView.visibility = View.GONE
 
                 } else {
-                    view.noNoteView.visibility = View.GONE
-                    view.recyclerView.visibility = View.VISIBLE
+                    binding.noNoteView.visibility = View.GONE
+                    binding.recyclerView.visibility = View.VISIBLE
                     adapter.setData(todoList)
                 }
             }, 300)
 
         })
 
-        bottomSheet(view)
+        bottomSheet()
 
-
-        return view
     }
 
-    private fun bottomSheet(view: View) {
-        val bottomSheet: RelativeLayout = view.LayoutBottom
+    private fun bottomSheet() {
+        val bottomSheet: RelativeLayout = binding.LayoutBottom
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet)
 
         bottomSheetBehavior.peekHeight = 0
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
 
-        view.addTodo.setOnClickListener {
-            view.addTodo.visibility = View.INVISIBLE
+        binding.addTodo.setOnClickListener {
+            binding.addTodo.visibility = View.INVISIBLE
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
         }
 
@@ -104,8 +106,8 @@ class ToDoListFragment : Fragment() {
             BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
-                    view.addTodo.visibility = View.VISIBLE
-                    view.todoTask.setText("")
+                    binding.addTodo.visibility = View.VISIBLE
+                    binding.todoTask.setText("")
                 }
             }
 
@@ -113,21 +115,21 @@ class ToDoListFragment : Fragment() {
 
         })
 
-        view.doneButton.setOnClickListener {
+        binding.doneButton.setOnClickListener {
             defaultScope.launch {
                 insertTodoToDatabase()
             }
         }
 
-        view.reminderButton.setOnClickListener {
-            setDateTimePicker(view)
+        binding.reminderButton.setOnClickListener {
+            setDateTimePicker()
         }
 
     }
 
     private fun insertTodoToDatabase() {
         val id = 0
-        val todoTaskIncomplete = todoTask.text.toString().trim()
+        val todoTaskIncomplete = binding.todoTask.text.toString().trim()
 
         if (!TextUtils.isEmpty(todoTaskIncomplete)) {
             val todo = UserTodo(id, todoTaskIncomplete, false)
@@ -146,7 +148,7 @@ class ToDoListFragment : Fragment() {
         }
     }
 
-    private fun setDateTimePicker(view: View) {
+    private fun setDateTimePicker() {
 
         setCalendarType()
 

@@ -7,6 +7,7 @@
     <string name="description_hint">Type something...</string>
     <string name="update">Update</string>
     <string name="noNote">No Notes added here yet</string>
+    <string name="noTodo">No Tasks added here yet</string>
     <string name="note">Note</string>
     <string name="ToDo">Todo</string>
     <string name="hintTask">Create a task</string>
@@ -20,8 +21,11 @@
     <string name="addImage">Add Image</string>
     <string name="addauido">Record Audio</string>
     <string name="deleteNote">Delete Note</string>
+    <string name="deleteNoteDesc">Are you sure you want to delete this note?</string>
     <string name="reminderButton">Reminder</string>
     <string name="selectTime">Please select the time</string>
     <string name="hour">Hour</string>
     <string name="minute">Minute</string>
+    <string name="deleteButton">Delete</string>
+    <string name="cancel">Cancel</string>
 </resources>

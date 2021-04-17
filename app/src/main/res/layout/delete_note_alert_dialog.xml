@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/deleteNoteLayoutContainer"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_margin="15dp"
+    android:background="@drawable/delete"
+    android:padding="15dp">
+
+    <LinearLayout
+        android:id="@+id/mainLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:contentDescription="@string/imageDesc"
+            android:src="@drawable/ic_baseline_delete_24" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:fontFamily="@font/ubuntu_medium"
+            android:paddingStart="8dp"
+            android:text="@string/deleteNote"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/deleteNoteDesc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:layout_marginStart="5dp"
+        android:textSize="16sp"
+        android:text="@string/deleteNoteDesc"
+        android:textColor="@color/white"
+        android:fontFamily="@font/ubuntu_medium"
+        android:layout_below="@id/mainLayout" />
+
+    <TextView
+        android:id="@+id/deleteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/deleteButton"
+        android:textColor="@android:color/holo_red_light"
+        android:fontFamily="@font/ubuntu_medium"
+        android:layout_below="@id/deleteNoteDesc"
+        android:layout_marginTop="22dp"
+        android:textSize="16sp"
+        android:layout_marginEnd="10dp"
+        android:layout_alignParentEnd="true"
+        android:textAllCaps="true"/>
+
+    <TextView
+        android:id="@+id/cancelButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/deleteNoteDesc"
+        android:layout_marginTop="22dp"
+        android:layout_toStartOf="@id/deleteButton"
+        android:fontFamily="@font/ubuntu_medium"
+        android:text="@string/cancel"
+        android:textAllCaps="true"
+        android:textSize="16sp"
+        android:layout_marginEnd="22dp"
+        android:textColor="@color/textHintColor" />
+
+</RelativeLayout>
