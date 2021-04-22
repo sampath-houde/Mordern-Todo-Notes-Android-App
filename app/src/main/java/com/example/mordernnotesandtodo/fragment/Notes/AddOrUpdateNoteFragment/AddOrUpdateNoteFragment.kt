@@ -30,6 +30,7 @@ import com.example.mordernnotesandtodo.model.UserNotes
 import com.example.mordernnotesandtodo.viewModel.NotesViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.record_audio_dialog.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -121,10 +122,11 @@ class AddOrUpdateNoteFragment : Fragment() {
         }
 
         binding.deleteNoteLayout.setOnClickListener {
-            createAlertDialog()
+            createDeleteAlertDialog()
         }
 
         binding.addRecordingLayout.setOnClickListener {
+            //createRecordDialog()
         }
 
         binding.shareButton.setOnClickListener {
@@ -132,6 +134,7 @@ class AddOrUpdateNoteFragment : Fragment() {
 
         }
     }
+
 
     private fun shareNoteToOtherApps() {
         val intent1 = Intent()
@@ -145,7 +148,33 @@ class AddOrUpdateNoteFragment : Fragment() {
         startActivity(intent1)
     }
 
-    private fun createAlertDialog() {
+    private fun createRecordDialog() {
+        val view = requireActivity().layoutInflater.inflate(R.layout.record_audio_dialog, null)
+
+        val builder = AlertDialog.Builder(activity)
+
+        builder.setView(view)
+        builder.setCancelable(false)
+
+        val dialog = builder.create()
+
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        view.recordButton.isEnabled = true
+
+
+        view.recordButton.setOnClickListener {
+            if(view.recordButton.isEnabled == true) {
+                view.recordButton.isEnabled = false
+            } else {
+                view.recordButton.isEnabled = false
+            }
+        }
+        dialog.setCancelable(false)
+        dialog.show()
+    }
+
+
+    private fun createDeleteAlertDialog() {
 
 
         val view = requireActivity().layoutInflater.inflate(R.layout.delete_note_alert_dialog, null)

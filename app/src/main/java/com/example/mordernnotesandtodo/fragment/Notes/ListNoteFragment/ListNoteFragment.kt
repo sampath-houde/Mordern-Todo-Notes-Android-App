@@ -23,15 +23,15 @@ class ListNoteFragment : Fragment() {
 
     private lateinit var mNoteViewModel: NotesViewModel
     private lateinit var liveDataNotes: LiveData<List<UserNotes>>
-    private lateinit var binding: FragmentListNoteBinding
     private var arrNotes = ArrayList<UserNotes>()
+    private lateinit var binding: FragmentListNoteBinding
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_list_note, container, false)
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -52,14 +52,14 @@ class ListNoteFragment : Fragment() {
 
         mNoteViewModel.readAllNotes.observe(viewLifecycleOwner, Observer { note ->
 
-            if(note.size == 0) {
-                binding.recyclerView.visibility = View.INVISIBLE
+            if (note.size == 0) {
                 binding.noNoteView.visibility = View.VISIBLE
-                binding.searchButton.visibility = View.INVISIBLE
+                binding.searchButton.visibility = View.GONE
+                binding.recyclerView.visibility = View.GONE
             } else {
-                binding.recyclerView.visibility = View.VISIBLE
-                binding.noNoteView.visibility = View.INVISIBLE
+                binding.noNoteView.visibility = View.GONE
                 binding.searchButton.visibility = View.VISIBLE
+                binding.recyclerView.visibility = View.VISIBLE
                 adapter.setData(note)
                 arrNotes = note as ArrayList<UserNotes>
             }
