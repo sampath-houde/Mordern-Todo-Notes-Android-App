@@ -93,6 +93,5 @@ dependencies {
     implementation 'com.akexorcist:snap-time-picker:1.0.3'
 
     //Audio Bar Visualizer
-    implementation 'com.github.imnirdst:iivisu:1.1.0'
     
 }

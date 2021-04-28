@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="20dp"
     android:layout_marginTop="20dp"
     android:layout_marginEnd="20dp"
-    android:layout_marginStart="20dp"
-    android:background="@drawable/record_audio_background"
-    android:layout_height="wrap_content">
+    android:background="@drawable/record_audio_background">
 
     <FrameLayout
         android:layout_width="110dp"
@@ -16,15 +15,54 @@
         android:layout_marginBottom="40dp"
         android:background="@drawable/mic_background">
 
-        <androidx.appcompat.widget.AppCompatButton
+        <ImageView
             android:id="@+id/recordButton"
-            android:background="@drawable/ic_baseline_mic_24"
-            android:backgroundTint="@color/white"
-            android:layout_height="65dp"
-            android:layout_marginTop="4dp"
             android:layout_width="65dp"
-            android:layout_gravity="center"/>
+            android:layout_height="65dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="4dp"
+            android:backgroundTint="@color/white"
+            android:src="@drawable/ic_baseline_mic_24"
+            android:visibility="gone" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/stopButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:background="@drawable/button_state"
+            android:enabled="false"
+            android:visibility="gone" />
 
     </FrameLayout>
+
+
+    <!--<Button
+        android:id="@+id/playButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:textColor="@color/white"
+        android:layout_marginStart="20dp"
+        android:text="Play" />
+
+    <Button
+        android:id="@+id/recordButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:textColor="@color/white"
+        android:text="Record" />
+
+    <Button
+        android:id="@+id/stopButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:textColor="@color/white"
+        android:layout_marginEnd="20dp"
+        android:text="Stop" />-->
 
 </RelativeLayout>

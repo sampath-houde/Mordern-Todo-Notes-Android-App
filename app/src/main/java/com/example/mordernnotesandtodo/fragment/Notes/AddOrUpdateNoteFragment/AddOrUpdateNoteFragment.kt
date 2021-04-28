@@ -8,17 +8,27 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.graphics.RecordingCanvas
 import android.graphics.drawable.ColorDrawable
+import android.media.AudioFormat
+import android.media.AudioRecord
+import android.media.MediaPlayer
+import android.media.MediaRecorder
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.speech.RecognizerIntent
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -30,11 +40,11 @@ import com.example.mordernnotesandtodo.model.UserNotes
 import com.example.mordernnotesandtodo.viewModel.NotesViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.record_audio_dialog.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import java.io.File
 import java.io.InputStream
 
 
@@ -50,7 +60,9 @@ class AddOrUpdateNoteFragment : Fragment() {
     private val args by navArgs<AddOrUpdateNoteFragmentArgs>()
     private val defaultScope = CoroutineScope(Dispatchers.Default + SupervisorJob())
     private val mainScope = CoroutineScope(Dispatchers.Main + SupervisorJob())
-
+    private lateinit var file: File
+    private lateinit var mr: MediaRecorder
+    private var i = 1
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,7 +75,7 @@ class AddOrUpdateNoteFragment : Fragment() {
 
         binding = FragmentAddNoteBinding.bind(view)
 
-
+        mr = MediaRecorder()
         mNotesViewModel = ViewModelProvider(this).get(NotesViewModel::class.java)
 
         binding.dateTime.text = date
@@ -110,7 +122,7 @@ class AddOrUpdateNoteFragment : Fragment() {
 
         binding.addimagelayout.setOnClickListener {
             defaultScope.launch {
-                requestPermission()
+                requestPermissionForImage()
             }
 
         }
@@ -126,7 +138,7 @@ class AddOrUpdateNoteFragment : Fragment() {
         }
 
         binding.addRecordingLayout.setOnClickListener {
-            //createRecordDialog()
+            createRecordDialog()
         }
 
         binding.shareButton.setOnClickListener {
@@ -149,7 +161,7 @@ class AddOrUpdateNoteFragment : Fragment() {
     }
 
     private fun createRecordDialog() {
-        val view = requireActivity().layoutInflater.inflate(R.layout.record_audio_dialog, null)
+       /* val view = requireActivity().layoutInflater.inflate(R.layout.record_audio_dialog, null)
 
         val builder = AlertDialog.Builder(activity)
 
@@ -157,24 +169,80 @@ class AddOrUpdateNoteFragment : Fragment() {
         builder.setCancelable(false)
 
         val dialog = builder.create()
+        val play = view.findViewById<Button>(R.id.playButton)
+        val stop = view.findViewById<Button>(R.id.stopButton)
+        val record = view.findViewById<Button>(R.id.recordButton)
 
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        view.recordButton.isEnabled = true
+        play.isEnabled = false
+        stop.isEnabled = false
+        record.setOnClickListener {
+            requestPermissionForAudio()
+            stop.isEnabled = true
+            record.isEnabled = false
+        }
+        stop.setOnClickListener {
+            stop.isEnabled = false
+            play.isEnabled = true
+            stopAudioRecord()
+        }
+        play.setOnClickListener {
+            play.isEnabled = false
+            stop.isEnabled = true
+            playAudio()
+        }
+
+        dialog.setCancelable(true)
+        dialog.show()*/
 
 
-        view.recordButton.setOnClickListener {
-            if(view.recordButton.isEnabled == true) {
-                view.recordButton.isEnabled = false
-            } else {
-                view.recordButton.isEnabled = false
+    }
+
+    private fun playAudio() {
+        var mp = MediaPlayer()
+        mp.setDataSource(file.absolutePath)
+        mp.prepare()
+        mp.start()
+    }
+
+    private fun stopAudioRecord() {
+        mr.stop()
+    }
+
+    private fun requestPermissionForAudio() {
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.RECORD_AUDIO) +
+            ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            requestPermissions(
+                arrayOf(
+                    Manifest.permission.RECORD_AUDIO,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                ), 111
+            )
+        } else {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                recordAudioStart()
             }
         }
-        dialog.setCancelable(false)
-        dialog.show()
     }
 
 
-    private fun createDeleteAlertDialog() {
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun recordAudioStart() {
+        file = File(requireContext().filesDir, "Audio${i++}")
+        mr.setAudioSource(MediaRecorder.AudioSource.MIC)
+        mr.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
+        mr.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB)
+        mr.setOutputFile(file)
+        mr.prepare()
+        mr.start()
+    }
+
+
+    private fun createDeleteAlertDialog()  {
 
 
         val view = requireActivity().layoutInflater.inflate(R.layout.delete_note_alert_dialog, null)
@@ -241,7 +309,8 @@ class AddOrUpdateNoteFragment : Fragment() {
             mNotesViewModel.updateNote(note)
 
             mainScope.launch {
-                Snackbar.make(binding.saveButton, "Sucessfully Updated", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(binding.saveButton, "Sucessfully Updated", Snackbar.LENGTH_SHORT)
+                    .show()
                 findNavController().navigate(R.id.action_addNewNoteFragment_to_viewPagerFragment)
             }
 
@@ -279,7 +348,7 @@ class AddOrUpdateNoteFragment : Fragment() {
 
     }
 
-    private fun requestPermission() {
+    private fun requestPermissionForImage() {
         if (ContextCompat.checkSelfPermission(
                 requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE
             ) != PackageManager.PERMISSION_GRANTED
@@ -304,13 +373,34 @@ class AddOrUpdateNoteFragment : Fragment() {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == REQUEST_CODE_STORAGE_PERMISSION && grantResults.size > 0) {
+        when (requestCode) {
+            REQUEST_CODE_STORAGE_PERMISSION -> {
+                if (grantResults.size > 0) {
+                    if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                        selectImage()
+                    }
+                }
+            }
+
+            111 -> {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                        recordAudioStart()
+                    }
+                }
+            }
+
+            else -> {
+                Toast.makeText(context, "Permission Deinied", Toast.LENGTH_SHORT).show()
+            }
+        }
+        /*if ((requestCode == REQUEST_CODE_STORAGE_PERMISSION && grantResults.size > 0) || (requestCode == 111 && grantResults.size>0)) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 selectImage()
             } else {
                 Toast.makeText(requireContext(), "Permission Denied", Toast.LENGTH_SHORT).show()
             }
-        }
+        }*/
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
