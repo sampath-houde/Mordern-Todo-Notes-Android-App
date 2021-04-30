@@ -9,6 +9,7 @@
     <LinearLayout
         android:id="@+id/fragmentNav"
         android:layout_width="wrap_content"
+        android:layout_marginBottom="6dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="8dp"
@@ -17,21 +18,23 @@
 
         <ImageView
             android:id="@+id/notesImage"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:padding="2dp"
             android:layout_marginEnd="10dp"
             android:layout_gravity="center"
-            android:background="?selectableItemBackground"
+            android:background="?android:selectableItemBackgroundBorderless"
             android:src="@drawable/ic_baseline_sticky_note_2_24" />
 
 
         <ImageView
             android:id="@+id/toDoImage"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:padding="2dp"
             android:layout_gravity="center"
             android:layout_marginStart="10dp"
-            android:background="?selectableItemBackground"
+            android:background="?android:selectableItemBackgroundBorderless"
             android:src="@drawable/ic_outline_library_add_check_24"
             app:tint="@color/textHintColor" />
 

@@ -21,6 +21,7 @@
             android:src="@drawable/ic_baseline_delete_24" />
 
         <TextView
+            android:id="@+id/deleteTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -36,27 +37,28 @@
         android:id="@+id/deleteNoteDesc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="14dp"
+        android:layout_below="@id/mainLayout"
         android:layout_marginStart="5dp"
-        android:textSize="16sp"
+        android:layout_marginTop="14dp"
+        android:fontFamily="@font/ubuntu_medium"
         android:text="@string/deleteNoteDesc"
         android:textColor="@color/white"
-        android:fontFamily="@font/ubuntu_medium"
-        android:layout_below="@id/mainLayout" />
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/deleteButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/deleteButton"
-        android:textColor="@android:color/holo_red_light"
-        android:fontFamily="@font/ubuntu_medium"
         android:layout_below="@id/deleteNoteDesc"
-        android:layout_marginTop="22dp"
-        android:textSize="16sp"
-        android:layout_marginEnd="10dp"
         android:layout_alignParentEnd="true"
-        android:textAllCaps="true"/>
+        android:layout_marginTop="22dp"
+        android:layout_marginEnd="10dp"
+        android:background="?android:selectableItemBackground"
+        android:fontFamily="@font/ubuntu_medium"
+        android:text="@string/deleteButton"
+        android:textAllCaps="true"
+        android:textColor="@android:color/holo_red_light"
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/cancelButton"
@@ -64,12 +66,13 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/deleteNoteDesc"
         android:layout_marginTop="22dp"
+        android:layout_marginEnd="22dp"
         android:layout_toStartOf="@id/deleteButton"
+        android:background="?android:selectableItemBackground"
         android:fontFamily="@font/ubuntu_medium"
         android:text="@string/cancel"
         android:textAllCaps="true"
-        android:textSize="16sp"
-        android:layout_marginEnd="22dp"
-        android:textColor="@color/textHintColor" />
+        android:textColor="@color/textHintColor"
+        android:textSize="16sp" />
 
 </RelativeLayout>

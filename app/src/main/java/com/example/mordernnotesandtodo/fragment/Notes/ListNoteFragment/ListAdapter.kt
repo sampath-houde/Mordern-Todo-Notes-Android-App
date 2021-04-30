@@ -1,6 +1,7 @@
 package com.example.mordernnotesapp.fragments.Note.AddNoteFragment.AddNoteFragment.ListNoteFragment
 
 import android.content.Context
+import android.graphics.BitmapFactory
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
@@ -42,7 +43,7 @@ class ListAdapter(context: Context) : RecyclerView.Adapter<ListAdapter.NoteViewH
             val defaultScope = CoroutineScope(Dispatchers.Default + SupervisorJob())
 
             defaultScope.launch {
-                Glide.with(holder.itemView).load(Convertors().toBitmap(currentNote.imagePath))
+                Glide.with(holder.itemView).load(currentNote.imagePath)
                         .also {
                             withContext(Dispatchers.Main) {
                                 it.into(holder.itemView.noteImage)
@@ -50,6 +51,10 @@ class ListAdapter(context: Context) : RecyclerView.Adapter<ListAdapter.NoteViewH
                             }
                         }
             }
+        }
+
+        if(currentNote.audio != null) {
+            holder.itemView.audio.visibility = View.VISIBLE
         }
 
         holder.itemView.cardBackground.setOnClickListener {

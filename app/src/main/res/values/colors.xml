@@ -18,6 +18,8 @@
     <color name="doneButtonColor">#0A82FB</color>
     <color name="flButtonColor">#191919</color>
     <color name="datePickerBackground">#FF444444</color>
+    <color name="indicatorColor">@color/doneButtonColor</color>
+    <color name="silver">#DADADA</color>
 
     <array name="notesColor">
         <item>@color/notesColor1</item>

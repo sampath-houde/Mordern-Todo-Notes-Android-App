@@ -35,6 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/noteImage"
             android:fontFamily="@font/rubik"
+            android:text="@string/deleteAudio"
             android:lineSpacingExtra="4dp"
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
@@ -47,6 +48,7 @@
             android:layout_marginTop="10dp"
             android:layout_below="@id/titleNote"
             android:textSize="15sp"
+            android:text="@string/deleteAudioDesc"
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
             android:fontFamily="@font/rubik"
@@ -54,17 +56,32 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
+        <ImageView
+            android:id="@+id/audio"
+            android:layout_width="60dp"
+            android:layout_height="20dp"
+            android:scaleX="3"
+            android:visibility="gone"
+            android:scaleY="1.2"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_below="@id/descriptionNote"
+            android:src="@drawable/audiowaves"
+            app:tint="@color/textHintColor" />
+
         <TextView
             android:id="@+id/noteDate"
-            android:layout_below="@+id/descriptionNote"
+            android:layout_below="@+id/audio"
             android:layout_width="wrap_content"
             android:textSize="10sp"
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
             android:textStyle="italic"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="18dp"
             android:textColor="@color/dateColor"
             android:layout_height="wrap_content"/>
+
+
 
     </RelativeLayout>
 </com.google.android.material.card.MaterialCardView>

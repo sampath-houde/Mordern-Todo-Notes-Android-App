@@ -16,5 +16,6 @@ data class UserNotes(
     val notesTitle: String,
     val notesDescription: String,
     val date: String,
-    val imagePath: ByteArray?
+    val imagePath: ByteArray?,
+    val audio: String?   //Saving Audio Path that's why string is used.
 ) : Parcelable
