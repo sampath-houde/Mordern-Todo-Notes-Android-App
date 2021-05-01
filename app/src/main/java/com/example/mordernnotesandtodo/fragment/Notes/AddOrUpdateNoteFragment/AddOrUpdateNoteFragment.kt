@@ -46,6 +46,7 @@ import java.io.File
 import java.io.InputStream
 
 
+@Suppress("DEPRECATION")
 class AddOrUpdateNoteFragment : Fragment() {
 
     private val date = FormatDate().date
@@ -63,6 +64,7 @@ class AddOrUpdateNoteFragment : Fragment() {
     private var i = 1
     private val handler = Handler()
     private var mp = MediaPlayer()
+    private lateinit var timer : TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -184,6 +186,7 @@ class AddOrUpdateNoteFragment : Fragment() {
         val ring = dialogBinding.frameLayout
         val saveAudioButton = dialogBinding.saveButton
         val cancelAudioButton = dialogBinding.cancelButton
+        timer = dialogBinding.timer
 
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         saveAudioButton.isEnabled = false
@@ -193,6 +196,8 @@ class AddOrUpdateNoteFragment : Fragment() {
             record.visibility = View.GONE
             Toast.makeText(view.context, "Recording Started", Toast.LENGTH_SHORT).show()
             stop.visibility = View.VISIBLE
+            timer.visibility = View.VISIBLE
+            countDownTimer.start()
         }
 
         stop.setOnClickListener {
@@ -212,6 +217,8 @@ class AddOrUpdateNoteFragment : Fragment() {
             )
             Toast.makeText(view.context, "Recording Stopped", Toast.LENGTH_SHORT).show()
             stop.isEnabled = false
+            countDownTimer.cancel()
+            cancelAudioButton.isEnabled = false
         }
 
         saveAudioButton.setOnClickListener {
@@ -222,16 +229,51 @@ class AddOrUpdateNoteFragment : Fragment() {
         }
 
         cancelAudioButton.setOnClickListener {
+            mr.stop()
             dialog.dismiss()
         }
 
-        dialog.setCancelable(true)
+        dialog.setCancelable(false)
         dialog.show()
 
 
     }
 
-    val runnable = object : Runnable {
+    private fun startTimer(milliseconds: Long) : String {
+        var timerString : String = ""
+        var secondsString : String = ""
+
+        val hours : Int = (milliseconds / (1000 * 60 * 60)).toInt()
+        val minutes: Int = ((milliseconds % (1000 * 60 * 60)) / (1000 * 60)).toInt()
+        val seconds: Int = ((milliseconds % (1000 * 60 * 60)) % (1000 * 60) / 1000).toInt()
+
+        if(hours > 0) {
+            timerString = "$hours:"
+        }
+
+        if(seconds < 10) {
+            secondsString = "0${seconds}"
+        } else {
+            secondsString = "$seconds"
+        }
+
+        timerString = "${timerString} ${minutes} : ${secondsString}"
+        return timerString
+    }
+
+    val countDownTimer = object : CountDownTimer(360000, 1000) {
+        override fun onTick(millisUntilFinished: Long) {
+            val string = startTimer(360000 - millisUntilFinished)
+            timer.setText(string)
+        }
+
+        override fun onFinish() {
+
+        }
+
+    }
+
+    val runnableAudio = object : Runnable {
         override fun run() {
             updateProgressBar()
         }
@@ -243,7 +285,7 @@ class AddOrUpdateNoteFragment : Fragment() {
         mp.prepare()
         binding!!.playPauseAudioButton.setOnClickListener {
             if (mp.isPlaying) {
-                handler.removeCallbacks(runnable)
+                handler.removeCallbacks(runnableAudio)
                 mp.pause()
                 binding!!.playPauseAudioButton.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_play_circle_outline_24))
                 binding!!.playPauseAudioButton.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.white))
@@ -258,7 +300,6 @@ class AddOrUpdateNoteFragment : Fragment() {
 
         binding!!.deleteAudioButton.setOnClickListener {
             createDeleteAudioAlertDialog()
-
         }
 
         mp.setOnCompletionListener {
@@ -287,9 +328,12 @@ class AddOrUpdateNoteFragment : Fragment() {
         val cancel = view.findViewById<TextView>(R.id.cancelButton)
         deleteTitle.setText(resources.getText(R.string.deleteAudio))
         deleteDesc.setText(resources.getText(R.string.deleteAudioDesc))
+
         delete.setOnClickListener {
+            mp.stop()
             binding!!.playAudioNote.visibility = View.GONE
             file = null
+            dialog.dismiss()
         }
 
         cancel.setOnClickListener {
@@ -311,7 +355,7 @@ class AddOrUpdateNoteFragment : Fragment() {
     private fun updateProgressBar() {
         if (mp.isPlaying) {
             binding!!.progress.setProgress(((mp.currentPosition.toFloat() / mp.duration.toFloat()) * 100).toInt())
-            handler.postDelayed(runnable, 10)
+            handler.postDelayed(runnableAudio, 10)
         }
     }
 

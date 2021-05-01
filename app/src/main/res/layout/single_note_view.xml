@@ -59,21 +59,22 @@
         <ImageView
             android:id="@+id/audio"
             android:layout_width="60dp"
-            android:layout_height="20dp"
+            android:layout_height="30dp"
             android:scaleX="3"
             android:visibility="gone"
-            android:scaleY="1.2"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="15dp"
+            android:scaleY="2"
+            android:contentDescription="@string/imageDesc"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="10dp"
             android:layout_below="@id/descriptionNote"
-            android:src="@drawable/audiowaves"
-            app:tint="@color/textHintColor" />
+            android:src="@drawable/audiowav"
+            app:tint="#FFC107" />
 
         <TextView
             android:id="@+id/noteDate"
             android:layout_below="@+id/audio"
             android:layout_width="wrap_content"
-            android:textSize="10sp"
+            android:textSize="12sp"
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
             android:textStyle="italic"

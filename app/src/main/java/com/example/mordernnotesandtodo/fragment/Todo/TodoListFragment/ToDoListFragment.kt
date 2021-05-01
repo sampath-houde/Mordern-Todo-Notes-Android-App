@@ -33,6 +33,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 
+@Suppress("DEPRECATION")
 class ToDoListFragment : Fragment() {
 
     private lateinit var mTodoViewModel: TodoViewModel
@@ -59,7 +60,7 @@ class ToDoListFragment : Fragment() {
 
         mTodoViewModel = ViewModelProvider(this).get(TodoViewModel::class.java)
 
-        val adapter = TodoListAdapter(mTodoViewModel, context)
+        val adapter = TodoListAdapter(mTodoViewModel, context, requireActivity())
 
         val recyclerView = binding.recyclerView
 
