@@ -48,8 +48,6 @@ class ListNoteFragment : Fragment() {
         recyclerView.layoutManager =
             StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
 
-
-
         mNoteViewModel.readAllNotes.observe(viewLifecycleOwner, Observer { note ->
 
             if (note.size == 0) {
@@ -70,16 +68,17 @@ class ListNoteFragment : Fragment() {
 
         binding.searchButton.setOnClickListener {
             binding.searchView.visibility = View.VISIBLE
+            binding.searchButton.visibility = View.GONE
+            binding.cancelSearch.visibility = View.VISIBLE
             binding.searchView.onActionViewExpanded()
+
         }
 
-        binding.searchView.setOnCloseListener(object : SearchView.OnCloseListener {
-            override fun onClose(): Boolean {
-                binding.searchView.visibility = View.GONE
-                return true
-            }
-
-        })
+        binding.cancelSearch.setOnClickListener {
+            binding.cancelSearch.visibility = View.GONE
+            binding.searchButton.visibility = View.VISIBLE
+            binding.searchView.onActionViewCollapsed()
+        }
 
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -106,6 +105,8 @@ class ListNoteFragment : Fragment() {
             }
 
         })
+
+
 
         binding.addNote.setOnClickListener {
             findNavController().navigate(R.id.action_viewPagerFragment_to_addNewNoteFragment)

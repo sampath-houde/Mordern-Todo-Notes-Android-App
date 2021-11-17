@@ -1,4 +1,4 @@
-package com.example.mordernnotesandtodo.fragment.Notes.AddOrUpdateNoteFragment
+package com.example.mordernnotesandtodo.ui.fragment
 
 import android.Manifest
 import android.app.Activity
@@ -33,7 +33,10 @@ import androidx.navigation.fragment.navArgs
 import com.example.mordernnotesandtodo.R
 import com.example.mordernnotesandtodo.databinding.FragmentAddNoteBinding
 import com.example.mordernnotesandtodo.databinding.RecordAudioDialogBinding
+import com.example.mordernnotesandtodo.fragment.Notes.AddOrUpdateNoteFragment.Convertors
+import com.example.mordernnotesandtodo.fragment.Notes.AddOrUpdateNoteFragment.FormatDate
 import com.example.mordernnotesandtodo.model.UserNotes
+import com.example.mordernnotesandtodo.utils.Utils
 import com.example.mordernnotesandtodo.viewModel.NotesViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
@@ -41,12 +44,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
-import org.w3c.dom.Text
 import java.io.File
 import java.io.InputStream
 
 
-@Suppress("DEPRECATION")
 class AddOrUpdateNoteFragment : Fragment() {
 
     private val date = FormatDate().date
@@ -60,6 +61,7 @@ class AddOrUpdateNoteFragment : Fragment() {
     private val defaultScope = CoroutineScope(Dispatchers.Default + SupervisorJob())
     private val mainScope = CoroutineScope(Dispatchers.Main + SupervisorJob())
     private var file: File? = null
+    private var audioPath: String? = null
     private lateinit var mr: MediaRecorder
     private var i = 1
     private val handler = Handler()
@@ -82,15 +84,13 @@ class AddOrUpdateNoteFragment : Fragment() {
 
         binding!!.dateTime.text = date
 
-
+        initClickListeners()
 
         if (args.notesData != null) {
             binding!!.shareButton.visibility = View.VISIBLE
             binding!!.deleteNoteLayout.visibility = View.VISIBLE
             binding!!.noteTitle.setText(args.notesData!!.notesTitle)
             binding!!.noteDescription.setText(args.notesData!!.notesDescription)
-
-
 
             if (args.notesData!!.imagePath != null) {
                 binding!!.layout.visibility = View.VISIBLE
@@ -101,14 +101,15 @@ class AddOrUpdateNoteFragment : Fragment() {
             if (args.notesData!!.audio != null) {
                 binding!!.playAudioNote.visibility = View.VISIBLE
                 binding!!.addRecordingLayout.visibility = View.GONE
+                audioPath = args.notesData!!.audio
                 prepareAudioFile()
             }
 
 
         }
+    }
 
-
-
+    private fun initClickListeners() {
         binding!!.saveButton.setOnClickListener {
 
             if (args.notesData == null) {
@@ -130,7 +131,7 @@ class AddOrUpdateNoteFragment : Fragment() {
             findNavController().navigateUp()
         }
 
-        bottomSheet()
+        initBottomSheet()
 
         binding!!.addimagelayout.setOnClickListener {
             defaultScope.launch {
@@ -150,7 +151,7 @@ class AddOrUpdateNoteFragment : Fragment() {
         }
 
         binding!!.addRecordingLayout.setOnClickListener {
-            createRecordDialog()
+            initRecordDialog()
         }
 
         binding!!.shareButton.setOnClickListener {
@@ -159,6 +160,67 @@ class AddOrUpdateNoteFragment : Fragment() {
         }
     }
 
+    private fun initRecordDialog() {
+
+        val view = requireActivity().layoutInflater.inflate(R.layout.record_audio_dialog, null)
+
+        val builder = AlertDialog.Builder(activity)
+
+        builder.setView(view)
+
+        val dialog = builder.create()
+        val binding = RecordAudioDialogBinding.bind(view)
+
+        timer = binding.timer
+
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        binding.saveButton.isEnabled = false
+
+        binding.recordButton.setOnClickListener {
+            requestPermissionForAudio()
+            binding.recordButton.visibility = View.GONE
+            Toast.makeText(requireContext(), "Recording Started", Toast.LENGTH_SHORT).show()
+            binding.stopButton.visibility = View.VISIBLE
+            timer.visibility = View.VISIBLE
+            countDownTimer.start()
+        }
+
+        binding.stopButton.setOnClickListener {
+            mr.stop()
+            binding.saveButton.isEnabled = true
+            binding.stopButton.imageTintList = ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.textHintColor
+                )
+            )
+            binding.frameLayout.backgroundTintList = ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.textHintColor
+                )
+            )
+            Toast.makeText(requireContext(), "Recording Stopped", Toast.LENGTH_SHORT).show()
+            binding.stopButton.isEnabled = false
+            countDownTimer.cancel()
+            binding.cancelButton.isEnabled = false
+        }
+
+        binding.saveButton.setOnClickListener {
+            dialog.dismiss()
+            this.binding!!.playAudioNote.visibility = View.VISIBLE
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            prepareAudioFile()
+        }
+
+        binding.cancelButton.setOnClickListener {
+            mr.stop()
+            dialog.dismiss()
+        }
+
+        dialog.setCancelable(false)
+        dialog.show()
+    }
 
     private fun shareNoteToOtherApps() {
         val intent1 = Intent()
@@ -172,113 +234,16 @@ class AddOrUpdateNoteFragment : Fragment() {
         startActivity(intent1)
     }
 
-    private fun createRecordDialog() {
-        val view = requireActivity().layoutInflater.inflate(R.layout.record_audio_dialog, null)
-
-        val builder = AlertDialog.Builder(activity)
-
-        builder.setView(view)
-
-        val dialog = builder.create()
-        val dialogBinding = RecordAudioDialogBinding.bind(view)
-        val stop = dialogBinding.stopButton
-        val record = dialogBinding.recordButton
-        val ring = dialogBinding.frameLayout
-        val saveAudioButton = dialogBinding.saveButton
-        val cancelAudioButton = dialogBinding.cancelButton
-        timer = dialogBinding.timer
-
-        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        saveAudioButton.isEnabled = false
-
-        record.setOnClickListener {
-            requestPermissionForAudio()
-            record.visibility = View.GONE
-            Toast.makeText(view.context, "Recording Started", Toast.LENGTH_SHORT).show()
-            stop.visibility = View.VISIBLE
-            timer.visibility = View.VISIBLE
-            countDownTimer.start()
-        }
-
-        stop.setOnClickListener {
-            mr.stop()
-            saveAudioButton.isEnabled = true
-            stop.imageTintList = ColorStateList.valueOf(
-                ContextCompat.getColor(
-                    requireContext(),
-                    R.color.textHintColor
-                )
-            )
-            ring.backgroundTintList = ColorStateList.valueOf(
-                ContextCompat.getColor(
-                    requireContext(),
-                    R.color.textHintColor
-                )
-            )
-            Toast.makeText(view.context, "Recording Stopped", Toast.LENGTH_SHORT).show()
-            stop.isEnabled = false
-            countDownTimer.cancel()
-            cancelAudioButton.isEnabled = false
-        }
-
-        saveAudioButton.setOnClickListener {
-            dialog.dismiss()
-            binding!!.playAudioNote.visibility = View.VISIBLE
-            bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-            prepareAudioFile()
-        }
-
-        cancelAudioButton.setOnClickListener {
-            mr.stop()
-            dialog.dismiss()
-        }
-
-        dialog.setCancelable(false)
-        dialog.show()
-
-
-    }
-
-    private fun startTimer(milliseconds: Long) : String {
-        var timerString : String = ""
-        var secondsString : String = ""
-
-        val hours : Int = (milliseconds / (1000 * 60 * 60)).toInt()
-        val minutes: Int = ((milliseconds % (1000 * 60 * 60)) / (1000 * 60)).toInt()
-        val seconds: Int = ((milliseconds % (1000 * 60 * 60)) % (1000 * 60) / 1000).toInt()
-
-        if(hours > 0) {
-            timerString = "$hours:"
-        }
-
-        if(seconds < 10) {
-            secondsString = "0${seconds}"
-        } else {
-            secondsString = "$seconds"
-        }
-
-        timerString = "${timerString} ${minutes} : ${secondsString}"
-        return timerString
-    }
-
-    val countDownTimer = object : CountDownTimer(360000, 1000) {
+    private val countDownTimer = object : CountDownTimer(360000, 1000) {
         override fun onTick(millisUntilFinished: Long) {
-            val string = startTimer(360000 - millisUntilFinished)
-            timer.setText(string)
+            val string = Utils.startTimer(360000 - millisUntilFinished)
+            timer.text = string
         }
 
-        override fun onFinish() {
-
-        }
-
+        override fun onFinish() {}
     }
 
-    val runnableAudio = object : Runnable {
-        override fun run() {
-            updateProgressBar()
-        }
-
-    }
+    private val runnableAudio = Runnable { updateProgressBar() }
 
     private fun prepareAudioFile() {
         setOutDataForAudioFile()
@@ -326,8 +291,8 @@ class AddOrUpdateNoteFragment : Fragment() {
         val deleteDesc = view.findViewById<TextView>(R.id.deleteNoteDesc)
         val delete = view.findViewById<TextView>(R.id.deleteButton)
         val cancel = view.findViewById<TextView>(R.id.cancelButton)
-        deleteTitle.setText(resources.getText(R.string.deleteAudio))
-        deleteDesc.setText(resources.getText(R.string.deleteAudioDesc))
+        deleteTitle.text = resources.getText(R.string.deleteAudio)
+        deleteDesc.text = resources.getText(R.string.deleteAudioDesc)
 
         delete.setOnClickListener {
             mp.stop()
@@ -354,7 +319,7 @@ class AddOrUpdateNoteFragment : Fragment() {
 
     private fun updateProgressBar() {
         if (mp.isPlaying) {
-            binding!!.progress.setProgress(((mp.currentPosition.toFloat() / mp.duration.toFloat()) * 100).toInt())
+            binding!!.progress.progress = ((mp.currentPosition.toFloat() / mp.duration.toFloat()) * 100).toInt()
             handler.postDelayed(runnableAudio, 10)
         }
     }
@@ -375,7 +340,7 @@ class AddOrUpdateNoteFragment : Fragment() {
                 ), 111
             )
         } else {
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 recordAudioStart()
             }
         }
@@ -426,7 +391,6 @@ class AddOrUpdateNoteFragment : Fragment() {
         val noteTitle = binding!!.noteTitle.text.toString().trim()
         val noteDescription = binding!!.noteDescription.text.toString().trim()
         val imagePath = selectedImagePath
-        var audioPath: String? = null
         if(file!=null) { audioPath = file!!.absolutePath }
 
         if (inputCheck(noteTitle, noteDescription)) {
@@ -450,7 +414,6 @@ class AddOrUpdateNoteFragment : Fragment() {
         val noteTitle = binding!!.noteTitle.text.toString().trim()
         val noteDescription = binding!!.noteDescription.text.toString().trim()
         val imagePath = selectedImagePath
-        var audioPath: String? = null
         if(file!=null) {audioPath = file!!.absolutePath}
 
         if (inputCheck(noteTitle, noteDescription)) {
@@ -472,16 +435,16 @@ class AddOrUpdateNoteFragment : Fragment() {
         }
     }
 
+
     private fun deleteNoteFromDataBase() {
         mNotesViewModel.deleteNote(args.notesData!!)
-
     }
 
     private fun inputCheck(noteTitle: String, noteDescription: String): Boolean {
         return !(TextUtils.isEmpty(noteTitle) && TextUtils.isEmpty(noteDescription))
     }
 
-    private fun bottomSheet() {
+    private fun initBottomSheet() {
         val bottomSheet: RelativeLayout = binding!!.bottomLayout
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet)
 
@@ -513,7 +476,7 @@ class AddOrUpdateNoteFragment : Fragment() {
     private fun selectImage() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         if (intent.resolveActivity(requireActivity().packageManager) != null) {
-            startActivityForResult(intent, REQUEST_CODE_SELECT_IMAGE)
+            requireActivity().startActivityFromFragment(this, intent, REQUEST_CODE_SELECT_IMAGE)
         }
     }
 
@@ -525,7 +488,7 @@ class AddOrUpdateNoteFragment : Fragment() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
             REQUEST_CODE_STORAGE_PERMISSION -> {
-                if (grantResults.size > 0) {
+                if (grantResults.isNotEmpty()) {
                     if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                         selectImage()
                     }
@@ -534,7 +497,7 @@ class AddOrUpdateNoteFragment : Fragment() {
 
             111 -> {
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                         recordAudioStart()
                     }
                 }
@@ -558,11 +521,14 @@ class AddOrUpdateNoteFragment : Fragment() {
         if (requestCode == REQUEST_CODE_SELECT_IMAGE && resultCode == Activity.RESULT_OK) {
             if (data != null) {
                 val selectedImage: Uri? = data.data
+                Log.d("Sampath", selectedImage.toString())
                 if (selectedImage != null) {
                     try {
+
                         val inputStream: InputStream? = requireActivity().contentResolver.openInputStream(selectedImage)
                         val bitmap: Bitmap = BitmapFactory.decodeStream(inputStream)
                         binding!!.layout.visibility = View.VISIBLE
+                        Log.d("Sampath", bitmap.toString())
                         binding!!.imageNote.setImageBitmap(bitmap)
                         bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
                         selectedImagePath = Convertors().fromBitmap(bitmap)
@@ -577,7 +543,7 @@ class AddOrUpdateNoteFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        mp.stop()
+        if(mp != null) mp.stop()
     }
 
     override fun onDestroyView() {

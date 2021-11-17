@@ -123,7 +123,7 @@ class ToDoListFragment : Fragment() {
         }
 
         binding.reminderButton.setOnClickListener {
-            setDateTimePicker()
+            //setDateTimePicker()
         }
 
     }
