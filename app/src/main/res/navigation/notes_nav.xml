@@ -8,12 +8,12 @@
     <fragment
         android:id="@+id/addNewNoteFragment"
         tools:layout="@layout/fragment_add_note"
-        android:name="com.example.mordernnotesandtodo.fragment.Notes.AddOrUpdateNoteFragment.AddOrUpdateNoteFragment"
+        android:name="com.example.mordernnotesandtodo.ui.fragment.AddOrUpdateNoteFragment"
         android:label="AddNewNoteFragment" >
         <action
             android:id="@+id/action_addNewNoteFragment_to_viewPagerFragment"
             app:destination="@id/viewPagerFragment"
-            app:enterAnim="@anim/fragment_fade_exit"
+            app:enterAnim="@anim/nav_default_pop_exit_anim"
             app:popUpTo="@id/viewPagerFragment"
             app:popUpToInclusive="true" />
         <argument
@@ -29,8 +29,8 @@
         <action
             android:id="@+id/action_viewPagerFragment_to_addNewNoteFragment"
             app:destination="@id/addNewNoteFragment"
-            app:enterAnim="@anim/fragment_close_enter"
-            app:exitAnim="@anim/fragment_close_exit"
-            app:popExitAnim="@anim/fragment_close_exit" />
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
 </navigation>

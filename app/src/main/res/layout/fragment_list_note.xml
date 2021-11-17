@@ -42,6 +42,24 @@
 
         </com.google.android.material.card.MaterialCardView>
 
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cancel_search"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:visibility="gone"
+            android:layout_alignParentEnd="true"
+            app:cardBackgroundColor="@color/iconBackgroundColor"
+            app:cardCornerRadius="10dp">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_baseline_cancel_24"
+                app:tint="@color/titleColor" />
+
+        </com.google.android.material.card.MaterialCardView>
+
     </RelativeLayout>
 
     <androidx.appcompat.widget.SearchView

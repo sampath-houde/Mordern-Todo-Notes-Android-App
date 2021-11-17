@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="../../../../layout/custom_preview.xml" value="0.29907407407407405" />
+        <entry key="app/src/main/res/layout/fragment_add_note.xml" value="0.33489583333333334" />
+        <entry key="app/src/main/res/layout/fragment_list_note.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/record_audio_dialog.xml" value="0.21197916666666666" />
+      </map>
+    </option>
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
