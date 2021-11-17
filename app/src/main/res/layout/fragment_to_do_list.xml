@@ -97,9 +97,9 @@
                 android:id="@+id/closeLayout"
                 android:layout_width="40dp"
                 android:layout_height="4dp"
-                app:cardBackgroundColor="@android:color/white"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="15dp" />
+                android:layout_marginTop="15dp"
+                app:cardBackgroundColor="@android:color/white" />
 
 
             <com.google.android.material.textfield.TextInputEditText
@@ -134,21 +134,21 @@
                 android:textColor="@color/doneButtonColor"
                 android:textSize="16sp" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/reminderButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/todoTask"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="35dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginEnd="20dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:text="@string/reminderButton"
-                android:textColor="@color/doneButtonColor"
-                android:textSize="16sp" />
+<!--            <com.google.android.material.textview.MaterialTextView-->
+<!--                android:id="@+id/reminderButton"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_below="@id/todoTask"-->
+<!--                android:layout_alignParentStart="true"-->
+<!--                android:layout_marginStart="20dp"-->
+<!--                android:layout_marginTop="35dp"-->
+<!--                android:layout_marginBottom="5dp"-->
+<!--                android:layout_marginEnd="20dp"-->
+<!--                android:clickable="true"-->
+<!--                android:focusable="true"-->
+<!--                android:text="@string/reminderButton"-->
+<!--                android:textColor="@color/doneButtonColor"-->
+<!--                android:textSize="16sp" />-->
 
 
         </RelativeLayout>

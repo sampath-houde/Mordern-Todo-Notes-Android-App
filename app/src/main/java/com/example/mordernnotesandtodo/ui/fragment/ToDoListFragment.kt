@@ -122,9 +122,9 @@ class ToDoListFragment : Fragment() {
             }
         }
 
-        binding.reminderButton.setOnClickListener {
-            //setDateTimePicker()
-        }
+//        binding.reminderButton.setOnClickListener {
+//            //setDateTimePicker()
+//        }
 
     }
 

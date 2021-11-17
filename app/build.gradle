@@ -8,6 +8,14 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        debug {
+            storePassword 'eNIGMA18@'
+            keyAlias 'key0'
+            keyPassword 'eNIGMA18@'
+            storeFile file('/Users/sampath/Documents/keystore')
+        }
+    }
     compileSdkVersion 31
     buildToolsVersion "30.0.3"
 
