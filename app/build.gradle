@@ -20,7 +20,7 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.example.mordernnotesandtodo"
+        applicationId "com.sampath.mordernnotesandtodo"
         minSdkVersion 25
         targetSdkVersion 31
         versionCode 1
