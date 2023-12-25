@@ -46,6 +46,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import java.io.File
 import java.io.InputStream
+import java.util.Objects
 
 
 class AddOrUpdateNoteFragment : Fragment() {
@@ -253,7 +254,7 @@ class AddOrUpdateNoteFragment : Fragment() {
                 handler.removeCallbacks(runnableAudio)
                 mp.pause()
                 binding!!.playPauseAudioButton.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_play_circle_outline_24))
-                binding!!.playPauseAudioButton.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.white))
+                binding!!.playPauseAudioButton.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.titleColor))
 
             } else {
                 mp.start()
@@ -272,9 +273,9 @@ class AddOrUpdateNoteFragment : Fragment() {
             mp.reset()
             setOutDataForAudioFile()
             mp.prepare()
-            binding!!.progress.setProgress(mp.currentPosition)
+            binding!!.progress.progress = mp.currentPosition
             binding!!.playPauseAudioButton.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_play_circle_outline_24))
-            binding!!.playPauseAudioButton.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.white))
+            binding!!.playPauseAudioButton.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.titleColor))
         }
 
     }
@@ -543,7 +544,7 @@ class AddOrUpdateNoteFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        if(mp != null) mp.stop()
+        if(Objects.nonNull(mp)) mp.stop()
     }
 
     override fun onDestroyView() {
