@@ -1,14 +1,12 @@
 package com.sampath.mordernnotesandtodo.ui.fragment
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.sampath.mordernnotesandtodo.R
@@ -16,55 +14,45 @@ import com.sampath.mordernnotesandtodo.data.model.UserNotes
 import com.sampath.mordernnotesandtodo.databinding.FragmentListNoteBinding
 import com.sampath.mordernnotesandtodo.ui.adapters.ListAdapter
 import com.sampath.mordernnotesandtodo.ui.viewModel.NotesViewModel
+import com.sampath.mordernnotesandtodo.utils.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
+import javax.inject.Inject
 import kotlin.collections.ArrayList
 
-class ListNoteFragment : Fragment() {
+@AndroidEntryPoint
+class ListNoteFragment : Fragment(R.layout.fragment_list_note) {
 
-
-    private lateinit var mNoteViewModel: NotesViewModel
-    private lateinit var liveDataNotes: LiveData<List<UserNotes>>
+    @Inject
+    lateinit var adapter: ListAdapter
+    private val mNoteViewModel: NotesViewModel by viewModels()
     private var arrNotes = ArrayList<UserNotes>()
-    private lateinit var binding: FragmentListNoteBinding
-
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_list_note, container, false)
-    }
+    private val binding by viewBinding(FragmentListNoteBinding::bind)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        binding = FragmentListNoteBinding.bind(view)
-
-        val adapter = ListAdapter(requireContext())
         val recyclerView = binding.recyclerView
-        mNoteViewModel = ViewModelProvider(this).get(NotesViewModel::class.java)
-        liveDataNotes = mNoteViewModel.readAllNotes
-
         recyclerView.adapter = adapter
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager =
             StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
 
-        mNoteViewModel.readAllNotes.observe(viewLifecycleOwner, Observer {note ->
-
-            if (note.isEmpty()) {
-                binding.noNoteView.visibility = View.VISIBLE
-                binding.searchButton.visibility = View.GONE
-                binding.recyclerView.visibility = View.GONE
-            } else {
-                binding.noNoteView.visibility = View.GONE
-                binding.searchButton.visibility = View.VISIBLE
-                binding.recyclerView.visibility = View.VISIBLE
-                adapter.setData(note)
-                arrNotes = note as ArrayList<UserNotes>
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            mNoteViewModel.readAllNotes.collect{note ->
+                if (note.isEmpty()) {
+                    binding.noNoteView.visibility = View.VISIBLE
+                    binding.searchButton.visibility = View.GONE
+                    binding.recyclerView.visibility = View.GONE
+                } else {
+                    binding.noNoteView.visibility = View.GONE
+                    binding.searchButton.visibility = View.VISIBLE
+                    binding.recyclerView.visibility = View.VISIBLE
+                    adapter.setData(note)
+                    arrNotes = note as ArrayList<UserNotes>
+                }
             }
+        }
 
-
-        })
 
 
         binding.searchButton.setOnClickListener {
@@ -90,8 +78,8 @@ class ListNoteFragment : Fragment() {
                 val tempArr = ArrayList<UserNotes>()
 
                 for (arr in arrNotes) {
-                    if (arr.notesTitle.toLowerCase(Locale.getDefault()).trim()
-                            .contains(newText.toString()) || arr.notesDescription.toLowerCase(
+                    if (arr.notesTitle.lowercase(Locale.getDefault()).trim()
+                            .contains(newText.toString()) || arr.notesDescription.lowercase(
                             Locale.getDefault()
                         ).trim().contains(newText.toString())
                     ) {

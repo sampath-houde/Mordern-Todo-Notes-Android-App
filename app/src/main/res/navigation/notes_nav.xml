@@ -17,9 +17,9 @@
             app:popUpTo="@id/viewPagerFragment"
             app:popUpToInclusive="true" />
         <argument
-            android:name="notesData"
-            app:argType="com.sampath.mordernnotesandtodo.data.model.UserNotes"
-            app:nullable="true" />
+            android:name="noteId"
+            app:argType="integer"
+            android:defaultValue="-1"/>
     </fragment>
     <fragment
         android:id="@+id/viewPagerFragment"

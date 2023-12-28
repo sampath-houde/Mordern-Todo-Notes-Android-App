@@ -8,6 +8,7 @@ import androidx.room.TypeConverters
 import com.sampath.mordernnotesandtodo.data.dao.NotesDao
 import com.sampath.mordernnotesandtodo.data.model.UserNotes
 import com.sampath.mordernnotesandtodo.utils.Convertors
+import dagger.hilt.android.qualifiers.ApplicationContext
 
 @TypeConverters(Convertors::class)
 @Database(entities = [UserNotes::class], version = 1, exportSchema = false )
@@ -25,7 +26,7 @@ abstract class NotesDatabase: RoomDatabase() {
             }
             synchronized(this) {
                 val instance = Room.databaseBuilder(
-                    context.applicationContext,
+                    context,
                     NotesDatabase::class.java,
                     "notes_database"
                 ).build()

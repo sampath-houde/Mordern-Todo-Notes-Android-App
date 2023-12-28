@@ -1,11 +1,9 @@
 package com.sampath.mordernnotesandtodo.data.model
 
-import android.graphics.Bitmap
+import android.os.Parcel
 import android.os.Parcelable
-import androidx.annotation.Nullable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import androidx.room.TypeConverter
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
@@ -18,4 +16,12 @@ data class UserNotes(
     val date: String,
     val imagePath: ByteArray?,
     val audio: String?   //Saving Audio Path that's why string is used.
-) : Parcelable
+) : Parcelable {
+    override fun describeContents(): Int {
+        return -1
+    }
+
+    override fun writeToParcel(dest: Parcel, flags: Int) {
+
+    }
+}

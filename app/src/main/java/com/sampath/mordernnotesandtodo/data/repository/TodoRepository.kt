@@ -3,8 +3,10 @@ package com.sampath.mordernnotesandtodo.data.repository
 import androidx.lifecycle.LiveData
 import com.sampath.mordernnotesandtodo.data.dao.TodoDao
 import com.sampath.mordernnotesandtodo.data.model.UserTodo
+import javax.inject.Inject
+import javax.inject.Named
 
-class TodoRepository(private val todoDao: TodoDao) {
+class TodoRepository @Inject constructor(@Named("todoDao")private val todoDao: TodoDao) {
 
     val readAllTodo: LiveData<List<UserTodo>> = todoDao.readAllTodo()
 

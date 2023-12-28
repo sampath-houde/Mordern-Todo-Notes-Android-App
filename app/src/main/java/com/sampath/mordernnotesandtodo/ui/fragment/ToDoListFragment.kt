@@ -11,8 +11,8 @@ import android.view.ViewGroup
 import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.akexorcist.snaptimepicker.SnapTimePickerDialog
@@ -28,52 +28,56 @@ import com.sampath.mordernnotesandtodo.data.model.UserTodo
 import com.sampath.mordernnotesandtodo.databinding.FragmentToDoListBinding
 import com.sampath.mordernnotesandtodo.ui.adapters.TodoListAdapter
 import com.sampath.mordernnotesandtodo.ui.viewModel.TodoViewModel
+import com.sampath.mordernnotesandtodo.utils.TASKS
+import com.sampath.mordernnotesandtodo.utils.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import javax.inject.Inject
+import javax.inject.Named
 
-@Suppress("DEPRECATION")
-class ToDoListFragment : Fragment() {
+@AndroidEntryPoint
+class ToDoListFragment : Fragment(R.layout.fragment_to_do_list) {
 
-    private lateinit var mTodoViewModel: TodoViewModel
+    private val mTodoViewModel: TodoViewModel by viewModels()
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<RelativeLayout>
-    private val defaultScope = CoroutineScope(Dispatchers.Default + SupervisorJob())
-    private val mainScope = CoroutineScope(Dispatchers.Main)
+
+    @Inject @Named("defaultCoroutineScope")
+    lateinit var defaultScope: CoroutineScope
+
+    @Inject @Named("mainCoroutineScope")
+    lateinit var mainScope :CoroutineScope
+
+
+    private lateinit var adapter: TodoListAdapter
+
+
     private lateinit var minDate: PrimeCalendar
     private lateinit var maxDate: PrimeCalendar
     private lateinit var timePicker: SnapTimePickerDialog
-    private lateinit var binding: FragmentToDoListBinding
+    private val binding by viewBinding(FragmentToDoListBinding::bind)
 
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_to_do_list, container, false)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding = FragmentToDoListBinding.bind(view)
 
-        mTodoViewModel = ViewModelProvider(this).get(TodoViewModel::class.java)
-
-        val adapter = TodoListAdapter(mTodoViewModel, context, requireActivity())
+        adapter = TodoListAdapter(requireContext()) {
+            when(it.first) {
+                TASKS.UPDATE -> mTodoViewModel.updateTodo(it.second)
+                TASKS.DELETE -> mTodoViewModel.deleteTodo(it.second)
+            }
+        }
 
         val recyclerView = binding.recyclerView
-
         recyclerView.adapter = adapter
-
         recyclerView.setHasFixedSize(true)
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        mTodoViewModel.readAllTodo.observe(viewLifecycleOwner, Observer { todoList ->
+        mTodoViewModel.readAllTodo.observe(viewLifecycleOwner) { todoList ->
 
             Handler().postDelayed({                                 // Handler used to show the animation of animation
 
-                if (todoList.size == 0) {
+                if (todoList.isEmpty()) {
                     binding.noNoteView.visibility = View.VISIBLE
                     binding.recyclerView.visibility = View.GONE
 
@@ -84,7 +88,7 @@ class ToDoListFragment : Fragment() {
                 }
             }, 300)
 
-        })
+        }
 
         bottomSheet()
 

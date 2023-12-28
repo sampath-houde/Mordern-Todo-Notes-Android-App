@@ -7,7 +7,7 @@ import android.util.Log
 import android.widget.Toast
 
 
- class MyAlarm : BroadcastReceiver() {
+class MyAlarm : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         Log.d("Alarm Bell", "Alarm fired")
         Toast.makeText(context, "Fired", Toast.LENGTH_SHORT).show()

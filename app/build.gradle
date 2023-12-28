@@ -2,8 +2,11 @@ plugins {
     id ("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("androidx.navigation.safeargs.kotlin")
-    id("com.google.devtools.ksp")
+    id("com.google.dagger.hilt.android")
+    id("kotlin-kapt")
 }
+
+
 
 android {
     namespace = "com.sampath.mordernnotesandtodo"
@@ -14,6 +17,7 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
+        multiDexEnabled true
     }
 
     buildFeatures {
@@ -26,13 +30,19 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    hilt {
+        enableAggregatingTask = true
+    }
 }
 
 dependencies {
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib:1.9.0")
     implementation("androidx.core:core-ktx:1.12.0")
-    implemetation("androidx.appcompat:appcompat:1.6.1")
+    def appcompat_version = "1.6.1"
+    implementation "androidx.appcompat:appcompat:$appcompat_version"
+    // For loading and tinting drawables on older versions of the platform
+    implementation "androidx.appcompat:appcompat-resources:$appcompat_version"
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
@@ -41,7 +51,7 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
     implementation("androidx.room:room-runtime:2.6.1")
-    ksp("androidx.room:room-compiler:2.6.1")
+    kapt("androidx.room:room-compiler:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
 
     // Navigation Component
@@ -53,9 +63,6 @@ dependencies {
     api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
     api("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 
-    //DataBinding
-    ksp("com.android.databinding:compiler:3.2.0-alpha10")
-
     // Lifecycle components
     implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
     implementation("androidx.lifecycle:lifecycle-common-java8:2.6.2")
@@ -66,7 +73,7 @@ dependencies {
 
     //Glide
     implementation("com.github.bumptech.glide:glide:4.16.0")
-    ksp("com.github.bumptech.glide:compiler:4.16.0")
+    kapt("com.github.bumptech.glide:compiler:4.16.0")
 
     //RoundImageView
     implementation("com.makeramen:roundedimageview:2.3.0")
@@ -78,4 +85,15 @@ dependencies {
     implementation("com.aminography:primedatepicker:3.6.1")
     implementation("com.aminography:primecalendar:1.7.0")
     implementation("com.akexorcist:snap-time-picker:1.0.3")
+
+    //Hilt
+    implementation "com.google.dagger:hilt-android:2.50"
+    kapt "com.google.dagger:hilt-android-compiler:2.50"
+    
+    //timber
+    implementation 'com.jakewharton.timber:timber:4.7.1'
+}
+
+kapt {
+    correctErrorTypes = true
 }
