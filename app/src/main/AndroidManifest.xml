@@ -13,12 +13,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:name=".MyApp"
-        android:theme="@style/Theme.MordernNotesAndTodo"
+        android:theme="@style/App.starting.Theme"
         tools:replace="android:icon">
 
         <activity
             android:name="com.sampath.mordernnotesandtodo.MainActivity"
             android:screenOrientation="fullSensor"
+            android:theme="@style/App.starting.Theme"
             android:exported="true">
 
             <intent-filter>
