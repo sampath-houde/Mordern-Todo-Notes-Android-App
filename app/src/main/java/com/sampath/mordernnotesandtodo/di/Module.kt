@@ -1,5 +1,6 @@
 package com.sampath.mordernnotesandtodo.di
 
+import android.app.Application
 import android.content.Context
 import android.media.MediaPlayer
 import android.media.MediaRecorder
@@ -8,16 +9,19 @@ import android.os.Handler
 import android.os.Looper
 import androidx.annotation.RequiresApi
 import androidx.room.Room
-import com.aminography.primecalendar.PrimeCalendar
 import com.sampath.mordernnotesandtodo.data.dao.NotesDao
 import com.sampath.mordernnotesandtodo.data.dao.TodoDao
 import com.sampath.mordernnotesandtodo.data.database.NotesDatabase
 import com.sampath.mordernnotesandtodo.data.database.TodoDatabase
+import com.sampath.mordernnotesandtodo.data.manager.LocalUserManagerImpl
+import com.sampath.mordernnotesandtodo.domain.manager.LocalUserManager
+import com.sampath.mordernnotesandtodo.domain.manager.usecases.AppEntries
+import com.sampath.mordernnotesandtodo.domain.manager.usecases.ReadAppEntry
+import com.sampath.mordernnotesandtodo.domain.manager.usecases.SaveAppEntry
 import com.sampath.mordernnotesandtodo.utils.FormatDate
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineScope
@@ -82,5 +86,16 @@ object Module {
         context, TodoDatabase::class.java, "todo_database"
     ).fallbackToDestructiveMigration()
         .build()
+
+    @Provides
+    @Singleton
+    fun providesLocalUserManager(application: Application): LocalUserManager = LocalUserManagerImpl(application)
+
+    @Provides
+    @Singleton
+    fun providesAppEntries(localUserManager: LocalUserManager) : AppEntries = AppEntries(
+        saveAppEntry = SaveAppEntry(localUserManager),
+        readAppEntry = ReadAppEntry(localUserManager)
+    )
 }
 

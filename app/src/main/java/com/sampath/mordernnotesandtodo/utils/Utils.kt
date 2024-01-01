@@ -2,7 +2,6 @@ package com.sampath.mordernnotesandtodo.utils
 
 
 object Utils {
-
     fun startTimer(milliseconds: Long) : String {
         var timerString = ""
         var secondsString = ""
@@ -24,6 +23,5 @@ object Utils {
         timerString = "$timerString $minutes : $secondsString"
         return timerString
     }
-
 
 }
